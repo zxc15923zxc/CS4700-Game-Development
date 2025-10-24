@@ -7,8 +7,9 @@ public class PlayerController : MonoBehaviour
     [Header("Movement")]
     public CharacterController controller;
     public float speed = 12f;
-    public float gravity = -9.81f * 2;
+    public float gravity = -9.81f;
     public float jumpHeight = 3f;
+    public float terminalVelocity = -50f; // Prevent infinite falling speed
     
     [Header("Ground Check")]
     public Transform groundCheck;
@@ -61,6 +62,29 @@ public class PlayerController : MonoBehaviour
         if (audioSource == null)
             audioSource = GetComponent<AudioSource>();
         
+        // Initialize velocity to prevent flying
+        velocity = Vector3.zero;
+        
+        // Check if ground check is set up
+        if (groundCheck == null)
+        {
+            Debug.LogError("Ground Check transform is not assigned! Please assign it in the inspector.");
+            // Create a temporary ground check if none exists
+            GameObject groundCheckObj = new GameObject("GroundCheck");
+            groundCheckObj.transform.SetParent(transform);
+            groundCheckObj.transform.localPosition = new Vector3(0, -1f, 0);
+            groundCheck = groundCheckObj.transform;
+            Debug.Log("Created temporary ground check. Please assign a proper one in the inspector.");
+        }
+        
+        if (groundMask == 0)
+        {
+            Debug.LogError("Ground Mask is not set! Please set it to the ground layer in the inspector.");
+            // Set to default layer if none assigned
+            groundMask = 1; // Default layer
+            Debug.Log("Set ground mask to default layer. Please assign the correct ground layer in the inspector.");
+        }
+        
         // Lock cursor
         Cursor.lockState = CursorLockMode.Locked;
         
@@ -82,16 +106,29 @@ public class PlayerController : MonoBehaviour
         // Ground check
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
         
+        // Debug ground check
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            Debug.Log($"Grounded: {isGrounded}, Velocity Y: {velocity.y}");
+        }
+        
+        // Reset velocity when grounded
         if (isGrounded && velocity.y < 0)
         {
-            velocity.y = -2f;
+            velocity.y = -2f; // Small downward force to keep grounded
         }
         
         // Get input
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
         
-        // Calculate movement
+        // Debug input
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            Debug.Log($"Input: x={x}, z={z}, Player Rotation: {transform.rotation.eulerAngles}");
+        }
+        
+        // Calculate movement (only horizontal movement)
         Vector3 move = transform.right * x + transform.forward * z;
         controller.Move(move * speed * Time.deltaTime);
         
@@ -102,9 +139,12 @@ public class PlayerController : MonoBehaviour
             PlaySound(jumpSound);
         }
         
-        // Apply gravity
+        // Apply gravity with terminal velocity limit
         velocity.y += gravity * Time.deltaTime;
-        controller.Move(velocity * Time.deltaTime);
+        velocity.y = Mathf.Max(velocity.y, terminalVelocity);
+        
+        // Apply vertical movement
+        controller.Move(new Vector3(0, velocity.y * Time.deltaTime, 0));
         
         // Footstep sounds
         if (isGrounded && (x != 0 || z != 0))
@@ -120,6 +160,9 @@ public class PlayerController : MonoBehaviour
     
     void HandleMouseLook()
     {
+        // Only handle mouse look if camera is assigned
+        if (playerCamera == null) return;
+        
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
         
@@ -128,7 +171,10 @@ public class PlayerController : MonoBehaviour
         
         yRotation += mouseX;
         
+        // Only rotate the camera for vertical look, not the player
         playerCamera.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        
+        // Only rotate the player for horizontal look (Y-axis only)
         transform.rotation = Quaternion.Euler(0f, yRotation, 0f);
     }
     
