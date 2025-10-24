@@ -14,20 +14,27 @@ public class FireController : MonoBehaviour
     public bool isBurning = false;
     public bool canBeLit = true;
     
+    [Header("Campfire Asset References")]
+    [Tooltip("Reference to the Fire prefab from your campfire asset")]
+    public GameObject firePrefab;
+    [Tooltip("Reference to the AudioSource with campfire sound")]
+    public AudioSource fireAudio;
+    [Tooltip("Reference to the Light component")]
+    public Light fireLight;
+    [Tooltip("Reference to the LightFlicker script on the light")]
+    public Abiogenesis3d.LightFlicker lightFlicker;
+    
     [Header("Light Properties")]
     public float maxLightIntensity = 2f;
     public float minLightIntensity = 0.1f;
     public Color fireColor = Color.red;
-    public float lightFlickerSpeed = 2f;
     
     private float baseLightIntensity;
-    private float flickerTimer;
     
     void Start()
     {
         // Initialize fire state
         baseLightIntensity = maxLightIntensity;
-        UpdateFireState();
         
         // Start with no fuel
         currentFuel = 0f;
@@ -39,6 +46,9 @@ public class FireController : MonoBehaviour
             fireAudio.loop = true;
             fireAudio.volume = 0.5f;
         }
+        
+        // Initialize fire state
+        UpdateFireState();
     }
     
     void Update()
@@ -51,9 +61,6 @@ public class FireController : MonoBehaviour
             
             // Update fire intensity based on fuel level
             UpdateFireIntensity();
-            
-            // Create light flickering effect
-            FlickerLight();
             
             // Check if fire should extinguish
             if (currentFuel <= 0)
@@ -102,29 +109,10 @@ public class FireController : MonoBehaviour
     
     private void UpdateFireState()
     {
-        // Update particle systems
-        if (fireParticles != null)
+        // Update fire prefab (enable/disable the visual fire)
+        if (firePrefab != null)
         {
-            if (isBurning)
-            {
-                fireParticles.Play();
-            }
-            else
-            {
-                fireParticles.Stop();
-            }
-        }
-        
-        if (smokeParticles != null)
-        {
-            if (isBurning)
-            {
-                smokeParticles.Play();
-            }
-            else
-            {
-                smokeParticles.Stop();
-            }
+            firePrefab.SetActive(isBurning);
         }
         
         // Update light
@@ -132,6 +120,12 @@ public class FireController : MonoBehaviour
         {
             fireLight.enabled = isBurning;
             fireLight.color = fireColor;
+        }
+        
+        // Update light flicker script
+        if (lightFlicker != null)
+        {
+            lightFlicker.enabled = isBurning;
         }
         
         // Update audio
@@ -152,21 +146,14 @@ public class FireController : MonoBehaviour
     {
         float fuelRatio = currentFuel / maxFuel;
         
-        // Update particle emission rate
-        if (fireParticles != null)
-        {
-            var emission = fireParticles.emission;
-            emission.rateOverTime = 50f * fuelRatio + 10f; // Min 10, Max 60 particles/sec
-        }
-        
-        // Update light intensity
+        // Update light intensity based on fuel level
         if (fireLight != null)
         {
             float targetIntensity = minLightIntensity + (maxLightIntensity - minLightIntensity) * fuelRatio;
             fireLight.intensity = Mathf.Lerp(fireLight.intensity, targetIntensity, Time.deltaTime * 2f);
         }
         
-        // Update audio volume
+        // Update audio volume based on fuel level
         if (fireAudio != null)
         {
             float targetVolume = 0.2f + (0.3f * fuelRatio);
@@ -174,15 +161,6 @@ public class FireController : MonoBehaviour
         }
     }
     
-    private void FlickerLight()
-    {
-        if (fireLight != null)
-        {
-            flickerTimer += Time.deltaTime * lightFlickerSpeed;
-            float flicker = Mathf.Sin(flickerTimer) * 0.1f + 1f;
-            fireLight.intensity = baseLightIntensity * flicker;
-        }
-    }
     
     public float GetFuelPercentage()
     {
