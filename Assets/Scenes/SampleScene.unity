@@ -215,6 +215,86 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &695954021
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 695954024}
+  - component: {fileID: 695954023}
+  - component: {fileID: 695954022}
+  m_Layer: 0
+  m_Name: Campfire
+  m_TagString: Fire
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &695954022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 695954021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c29b979bbbedc8b4b883c3682645a36e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  autoSetupFire: 1
+  fireParticles: {fileID: 0}
+  smokeParticles: {fileID: 0}
+  fireLight: {fileID: 0}
+  fireAudio: {fileID: 0}
+  fireSound: {fileID: 0}
+  fireIntensity: 2
+  fireColor: {r: 1, g: 0, b: 0, a: 1}
+  lightRange: 10
+--- !u!114 &695954023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 695954021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 785e394c1ad436f46997600cbc812922, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxFuel: 100
+  currentFuel: 0
+  fuelBurnRate: 5
+  minFuelToBurn: 10
+  fireParticles: {fileID: 0}
+  smokeParticles: {fileID: 0}
+  fireLight: {fileID: 0}
+  fireAudio: {fileID: 0}
+  isBurning: 0
+  canBeLit: 1
+  maxLightIntensity: 2
+  minLightIntensity: 0.1
+  fireColor: {r: 1, g: 0, b: 0, a: 1}
+  lightFlickerSpeed: 2
+--- !u!4 &695954024
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 695954021}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 386.65356, y: 3.7700002, z: 460}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -519,7 +599,8 @@ GameObject:
   - component: {fileID: 1140453931}
   - component: {fileID: 1140453930}
   - component: {fileID: 1140453929}
-  - component: {fileID: 1140453928}
+  - component: {fileID: 1140453933}
+  - component: {fileID: 1140453932}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -527,27 +608,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1140453928
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1140453927}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8dd92a74948be2f4db3de38530a4eacc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controller: {fileID: 1140453930}
-  speed: 12
-  gravity: -19.62
-  jumpHeight: 3
-  groundCheck: {fileID: 1859478167}
-  groundDistance: 0.4
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!114 &1140453929
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -605,6 +665,118 @@ Transform:
   - {fileID: 865802524}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1140453932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1140453927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b5db368b8dcd5a46b6362b4815572a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionRange: 3
+  interactKey: 101
+  interactionPrompt: {fileID: 0}
+  interactSound: {fileID: 0}
+--- !u!114 &1140453933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1140453927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8aa3c371911c9047bfce4f3651787ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 1140453930}
+  speed: 20
+  gravity: -19.62
+  jumpHeight: 3
+  groundCheck: {fileID: 1859478167}
+  groundDistance: 0.4
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 64
+  playerCamera: {fileID: 963194227}
+  mouseSensitivity: 100
+  maxHealth: 100
+  currentHealth: 100
+  healthRegenRate: 5
+  healthDecayRate: 2
+  bodyTemperature: 37
+  minTemperature: 20
+  maxTemperature: 45
+  ambientTemperature: 15
+  healthBar: {fileID: 0}
+  temperatureIndicator: {fileID: 0}
+  footstepSounds: []
+  jumpSound: {fileID: 0}
+  landSound: {fileID: 0}
+--- !u!1 &1739189368
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1739189370}
+  - component: {fileID: 1739189369}
+  m_Layer: 0
+  m_Name: EnviromentManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1739189369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1739189368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a34df49d8de25e7488f796023cd16210, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  autoSpawnEnvironment: 1
+  numberOfTrees: 10
+  numberOfGrassPatches: 20
+  numberOfFuelItems: 15
+  spawnArea: {fileID: 0}
+  spawnRadius: 50
+  treePrefab: {fileID: 0}
+  grassPrefab: {fileID: 0}
+  woodPrefab: {fileID: 0}
+  stickPrefab: {fileID: 0}
+  grassFuelPrefab: {fileID: 0}
+  firePrefab: {fileID: 0}
+  minSpawnDistance: 5
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 1
+--- !u!4 &1739189370
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1739189368}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 386.65356, y: 3.7700002, z: 460}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1859478166
 GameObject:
   m_ObjectHideFlags: 0
@@ -643,3 +815,5 @@ SceneRoots:
   - {fileID: 705507995}
   - {fileID: 663205128}
   - {fileID: 1140453931}
+  - {fileID: 695954024}
+  - {fileID: 1739189370}
