@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
     [Header("Movement")]
     public CharacterController controller;
     public float speed = 12f;
-    public float gravity = -9.81f * 2;
+    public float gravity = -9.81f;
     public float jumpHeight = 3f;
     
     [Header("Ground Check")]
@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     
     [Header("Camera")]
     public Camera playerCamera;
-    public float mouseSensitivity = 100f;
+    public float mouseSensitivity = 2f;
     
     [Header("Health & Survival")]
     public float maxHealth = 100f;
@@ -61,6 +61,17 @@ public class PlayerController : MonoBehaviour
         if (audioSource == null)
             audioSource = GetComponent<AudioSource>();
         
+        // Check if ground check is set up
+        if (groundCheck == null)
+        {
+            Debug.LogError("Ground Check transform is not assigned! Please assign it in the inspector.");
+        }
+        
+        if (groundMask == 0)
+        {
+            Debug.LogError("Ground Mask is not set! Please set it to the ground layer in the inspector.");
+        }
+        
         // Lock cursor
         Cursor.lockState = CursorLockMode.Locked;
         
@@ -81,6 +92,12 @@ public class PlayerController : MonoBehaviour
     {
         // Ground check
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+        
+        // Debug ground check
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            Debug.Log($"Grounded: {isGrounded}, Velocity Y: {velocity.y}");
+        }
         
         if (isGrounded && velocity.y < 0)
         {
