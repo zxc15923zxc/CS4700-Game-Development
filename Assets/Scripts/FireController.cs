@@ -9,13 +9,7 @@ public class FireController : MonoBehaviour
     public float currentFuel = 0f;
     public float fuelBurnRate = 5f; // Fuel consumed per second
     public float minFuelToBurn = 10f; // Minimum fuel needed to start burning
-    
-    [Header("Fire Effects")]
-    public ParticleSystem fireParticles;
-    public ParticleSystem smokeParticles;
-    public Light fireLight;
-    public AudioSource fireAudio;
-    
+
     [Header("Fire States")]
     public bool isBurning = false;
     public bool canBeLit = true;
