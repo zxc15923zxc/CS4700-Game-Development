@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\FireController.cs" />
+    <Compile Include="Assets\Scripts\FuelUI.cs" />
     <Compile Include="Assets\Scripts\PlayerInteraction.cs" />
     <Compile Include="Assets\Scripts\GrassController.cs" />
     <Compile Include="Assets\Scripts\EnvironmentManager.cs" />
@@ -70,6 +71,10 @@
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\MouseMovement.cs" />
     <Compile Include="Assets\Scripts\TreeController.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Fantasy Skybox FREE\Readme.txt" />
+    <None Include="Assets\Fantasy Skybox FREE\ReleaseNotes.txt" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

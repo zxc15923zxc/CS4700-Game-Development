@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class FireController : MonoBehaviour
 {
@@ -14,206 +15,112 @@ public class FireController : MonoBehaviour
     [Tooltip("Fuel amount to start with if startLit is enabled.")]
     public float initialFuel = 50f;
 
-    [Header("Fire States")]
+    [Header("Fire State")]
     public bool isBurning = false;
     public bool canBeLit = true;
-    
-    [Header("Campfire Asset References")]
-    [Tooltip("Reference to the Fire prefab from your campfire asset")]
-    public GameObject firePrefab;
-    [Tooltip("Reference to the AudioSource with campfire sound")]
-    public AudioSource fireAudio;
-    [Tooltip("Reference to the Light component")]
-    public Light fireLight;
-    [Tooltip("Reference to the LightFlicker script on the light")]
-    public Abiogenesis3d.LightFlicker lightFlicker;
-    
-    [Header("Light Properties")]
-    public float maxLightIntensity = 2f;
-    public float minLightIntensity = 0.1f;
-    public Color fireColor = Color.red;
-    
-    private float baseLightIntensity;
-    
+
+    [Header("Events (optional)")]
+    [Tooltip("Invoked when the fire starts burning.")]
+    public UnityEvent onLit;
+    [Tooltip("Invoked when the fire is extinguished.")]
+    public UnityEvent onExtinguished;
+    [Tooltip("Invoked when fuel changes. Parameter: current fuel percentage (0..1).")]
+    public UnityEvent<float> onFuelChanged;
+
     void Start()
     {
-        // Initialize fire state
-        baseLightIntensity = maxLightIntensity;
-        
-        // Initialize starting fuel/burning state
+        // Initialize starting fuel and burning state
         if (startLit)
         {
-            // Respect any preset value in the inspector, otherwise use initialFuel
             if (currentFuel <= 0f)
-            {
                 currentFuel = Mathf.Clamp(initialFuel, 0f, maxFuel);
-            }
+
             isBurning = currentFuel >= minFuelToBurn && canBeLit;
         }
         else
         {
-            // If the visual fire is already active in the prefab, sync burning state to visuals
-            bool visualsActive = firePrefab != null && firePrefab.activeInHierarchy;
-            isBurning = visualsActive && canBeLit;
-            if (isBurning && currentFuel <= 0f)
-            {
-                // Provide some default fuel so the fire can run
-                currentFuel = Mathf.Clamp(initialFuel, 0f, maxFuel);
-            }
+            // If not explicitly starting lit, derive burning from current values if sensible
+            isBurning = currentFuel >= minFuelToBurn && canBeLit;
         }
-        
-        // Set up audio
-        if (fireAudio != null)
-        {
-            fireAudio.loop = true;
-            fireAudio.volume = 0.5f;
-        }
-        
-        // Initialize fire state
-        UpdateFireState();
+
+        // Notify listeners about initial state
+        if (isBurning)
+            onLit?.Invoke();
+        else
+            onExtinguished?.Invoke();
+
+        onFuelChanged?.Invoke(GetFuelPercentage());
     }
-    
+
     void Update()
     {
-        if (isBurning && currentFuel > 0)
+        if (!isBurning)
+            return;
+
+        if (currentFuel > 0f)
         {
-            // Consume fuel over time
             currentFuel -= fuelBurnRate * Time.deltaTime;
-            currentFuel = Mathf.Max(0, currentFuel);
-            
-            // Update fire intensity based on fuel level
-            UpdateFireIntensity();
-            
-            // Check if fire should extinguish
-            if (currentFuel <= 0)
+            currentFuel = Mathf.Max(0f, currentFuel);
+            onFuelChanged?.Invoke(GetFuelPercentage());
+
+            if (currentFuel <= 0f)
             {
                 ExtinguishFire();
             }
         }
-        else if (isBurning && currentFuel <= 0)
+        else
         {
             ExtinguishFire();
         }
     }
-    
+
     public bool AddFuel(float amount)
     {
-        if (amount <= 0) return false;
-        
-        currentFuel += amount;
-        currentFuel = Mathf.Min(currentFuel, maxFuel);
-        
-        // Auto-light fire if it has enough fuel and isn't burning
+        if (amount <= 0f) return false;
+
+        currentFuel = Mathf.Clamp(currentFuel + amount, 0f, maxFuel);
+        onFuelChanged?.Invoke(GetFuelPercentage());
+
+        // Auto-light if enough fuel and permitted
         if (!isBurning && currentFuel >= minFuelToBurn && canBeLit)
         {
             LightFire();
         }
-        
+
         return true;
     }
-    
+
     public bool LightFire()
     {
         if (currentFuel >= minFuelToBurn && canBeLit)
         {
             isBurning = true;
-            UpdateFireState();
+            onLit?.Invoke();
             return true;
         }
         return false;
     }
-    
+
     public void ExtinguishFire()
     {
+        if (!isBurning) return;
         isBurning = false;
-        UpdateFireState();
+        onExtinguished?.Invoke();
     }
-    
-    private void UpdateFireState()
-    {
-        // Update fire prefab (enable/disable the visual fire)
-        if (firePrefab != null)
-        {
-            firePrefab.SetActive(isBurning);
-        }
-        
-        // Update light
-        if (fireLight != null)
-        {
-            fireLight.enabled = isBurning;
-            fireLight.color = fireColor;
-        }
-        
-        // Update light flicker script
-        if (lightFlicker != null)
-        {
-            lightFlicker.enabled = isBurning;
-        }
-        
-        // Update audio
-        if (fireAudio != null)
-        {
-            if (isBurning)
-            {
-                fireAudio.Play();
-            }
-            else
-            {
-                fireAudio.Stop();
-            }
-        }
-    }
-    
-    private void UpdateFireIntensity()
-    {
-        float fuelRatio = currentFuel / maxFuel;
-        
-        // Update light intensity based on fuel level
-        if (fireLight != null)
-        {
-            float targetIntensity = minLightIntensity + (maxLightIntensity - minLightIntensity) * fuelRatio;
-            fireLight.intensity = Mathf.Lerp(fireLight.intensity, targetIntensity, Time.deltaTime * 2f);
-        }
-        
-        // Update audio volume based on fuel level
-        if (fireAudio != null)
-        {
-            float targetVolume = 0.2f + (0.3f * fuelRatio);
-            fireAudio.volume = Mathf.Lerp(fireAudio.volume, targetVolume, Time.deltaTime * 2f);
-        }
-    }
-    
-    
+
     public float GetFuelPercentage()
     {
-        return currentFuel / maxFuel;
+        if (maxFuel <= 0f) return 0f;
+        return Mathf.Clamp01(currentFuel / maxFuel);
     }
-    
+
     public bool CanAddFuel()
     {
         return currentFuel < maxFuel;
     }
-    
+
     public bool IsBurning()
     {
         return isBurning;
-    }
-    
-    void OnTriggerEnter(Collider other)
-    {
-        // Check if player is near fire for warmth/healing effects
-        if (other.CompareTag("Player"))
-        {
-            // Could add warmth/health regeneration here
-            Debug.Log("Player is near the fire!");
-        }
-    }
-    
-    void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            Debug.Log("Player left the fire area");
-        }
     }
 }

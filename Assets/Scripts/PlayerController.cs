@@ -29,6 +29,12 @@ public class PlayerController : MonoBehaviour
     public float maxTemperature = 45f; // Maximum safe temperature
     public float ambientTemperature = 15f; // Outside temperature
 
+    // New: control how quickly body temperature moves toward the target.
+    // Tweak these in the Inspector:
+    public float temperatureLerpSpeedNearFire = 2.0f;      // faster when near fire
+    public float temperatureLerpSpeedAwayFromFire = 0.2f;  // slower when away from fire
+    public float fireInfluenceRadius = 10f;                // same radius used for influence calculation
+
     [Header("UI")]
     public GameObject healthBar;
     public GameObject temperatureIndicator;
@@ -169,12 +175,16 @@ public class PlayerController : MonoBehaviour
         if (nearbyFire != null && nearbyFire.IsBurning())
         {
             float distanceToFire = Vector3.Distance(transform.position, nearbyFire.transform.position);
-            float fireInfluence = Mathf.Clamp01(1f - (distanceToFire / 10f)); // 10 unit radius
+            float fireInfluence = Mathf.Clamp01(1f - (distanceToFire / fireInfluenceRadius)); // Use influence radius
             targetTemperature = Mathf.Lerp(ambientTemperature, 40f, fireInfluence);
         }
 
+        // Determine lerp speed based on distance to fire
+        float distanceToNearestFire = (nearbyFire != null) ? Vector3.Distance(transform.position, nearbyFire.transform.position) : fireInfluenceRadius;
+        float lerpSpeed = Mathf.Lerp(temperatureLerpSpeedAwayFromFire, temperatureLerpSpeedNearFire, Mathf.Clamp01(1f - (distanceToNearestFire / fireInfluenceRadius)));
+
         // Gradually adjust body temperature
-        bodyTemperature = Mathf.Lerp(bodyTemperature, targetTemperature, Time.deltaTime * 0.5f);
+        bodyTemperature = Mathf.Lerp(bodyTemperature, targetTemperature, Time.deltaTime * lerpSpeed);
         bodyTemperature = Mathf.Clamp(bodyTemperature, 0f, 50f);
     }
 
@@ -247,27 +257,10 @@ public class PlayerController : MonoBehaviour
         {
             float tempPct = Mathf.Clamp01(GetTemperaturePercentage());
 
-            Slider tempSlider = temperatureIndicator.GetComponent<Slider>();
-            if (tempSlider != null)
+            Text tempText = temperatureIndicator.GetComponent<Text>();
+            if (tempText != null)
             {
-                tempSlider.value = tempPct;
-            }
-            else
-            {
-                Image tempImage = temperatureIndicator.GetComponent<Image>();
-                if (tempImage != null)
-                {
-                    // Map cold->hot from blue to red
-                    tempImage.color = Color.Lerp(Color.blue, Color.red, tempPct);
-                }
-                else
-                {
-                    Text tempText = temperatureIndicator.GetComponent<Text>();
-                    if (tempText != null)
-                    {
-                        tempText.text = Mathf.Round(bodyTemperature) + "°C";
-                    }
-                }
+                tempText.text = "Body Temp: " + Mathf.Round(bodyTemperature) + "°C";
             }
         }
     }
