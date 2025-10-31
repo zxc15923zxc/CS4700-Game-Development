@@ -9,6 +9,10 @@ public class FireController : MonoBehaviour
     public float currentFuel = 0f;
     public float fuelBurnRate = 5f; // Fuel consumed per second
     public float minFuelToBurn = 10f; // Minimum fuel needed to start burning
+    [Tooltip("If true, the fire starts lit on play using initialFuel.")]
+    public bool startLit = true;
+    [Tooltip("Fuel amount to start with if startLit is enabled.")]
+    public float initialFuel = 50f;
 
     [Header("Fire States")]
     public bool isBurning = false;
@@ -36,9 +40,27 @@ public class FireController : MonoBehaviour
         // Initialize fire state
         baseLightIntensity = maxLightIntensity;
         
-        // Start with no fuel
-        currentFuel = 0f;
-        isBurning = false;
+        // Initialize starting fuel/burning state
+        if (startLit)
+        {
+            // Respect any preset value in the inspector, otherwise use initialFuel
+            if (currentFuel <= 0f)
+            {
+                currentFuel = Mathf.Clamp(initialFuel, 0f, maxFuel);
+            }
+            isBurning = currentFuel >= minFuelToBurn && canBeLit;
+        }
+        else
+        {
+            // If the visual fire is already active in the prefab, sync burning state to visuals
+            bool visualsActive = firePrefab != null && firePrefab.activeInHierarchy;
+            isBurning = visualsActive && canBeLit;
+            if (isBurning && currentFuel <= 0f)
+            {
+                // Provide some default fuel so the fire can run
+                currentFuel = Mathf.Clamp(initialFuel, 0f, maxFuel);
+            }
+        }
         
         // Set up audio
         if (fireAudio != null)
