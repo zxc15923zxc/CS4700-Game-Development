@@ -46,7 +46,7 @@ Light:
   m_Shape: 0
   m_Color: {r: 1, g: 0.6456446, b: 0, a: 1}
   m_Intensity: 2
-  m_Range: 2
+  m_Range: 300
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -111,7 +111,7 @@ MonoBehaviour:
   difference: 0.1
   maxFrequency: 0.235
   minFrequency: 0.098
-  lerpSpeed: 100
+  lerpSpeed: 20
   localPosition: {x: 0, y: 0.5, z: 0}
   maxOffset: 0.05
 --- !u!1 &1401345112878102921
@@ -532,9 +532,11 @@ GameObject:
   - component: {fileID: 2106554887}
   - component: {fileID: 2106554889}
   - component: {fileID: 2106554888}
+  - component: {fileID: 9029195534580750299}
+  - component: {fileID: 5240793779976617833}
   m_Layer: 0
   m_Name: CampFire
-  m_TagString: Untagged
+  m_TagString: Fire
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5476,6 +5478,56 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!114 &9029195534580750299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3615813628959939254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 785e394c1ad436f46997600cbc812922, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxFuel: 100
+  currentFuel: 0
+  fuelBurnRate: 0.3
+  minFuelToBurn: 10
+  startLit: 1
+  initialFuel: 50
+  isBurning: 1
+  canBeLit: 1
+  onLit:
+    m_PersistentCalls:
+      m_Calls: []
+  onExtinguished:
+    m_PersistentCalls:
+      m_Calls: []
+  onFuelChanged:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!135 &5240793779976617833
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3615813628959939254}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 10
+  m_Center: {x: 0, y: 0.90096617, z: 0}
 --- !u!1 &3615813630371768121
 GameObject:
   m_ObjectHideFlags: 0
@@ -5485,7 +5537,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3615813630371768122}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Wood
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -1,241 +1,252 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerInteraction : MonoBehaviour
 {
-    [Header("Interaction Settings")]
-    public float interactionRange = 3f;
+    [Header("Interaction")]
+    [Tooltip("Camera used for pointing (defaults to Camera.main when empty).")]
+    public Camera playerCamera;
+    [Tooltip("Max distance the player can point to interact.")]
+    public float maxInteractDistance = 3.0f;
     public KeyCode interactKey = KeyCode.E;
-    
-    [Header("UI References")]
-    public GameObject interactionPrompt;
-    
-    [Header("Audio")]
-    public AudioClip interactSound;
-    
-    private Camera playerCamera;
-    private AudioSource audioSource;
-    private FuelItem currentFuelItem;
-    private FireController currentFire;
-    
+    [Tooltip("Only these layers will be considered by the raycast. Use -1 for everything.")]
+    public LayerMask interactLayerMask = -1;
+    [Tooltip("If no fire is pointed at, the player can still add fuel to the nearest fire within this radius.")]
+    public float proximityInteractRadius = 2.5f;
+
+    [Header("Carry / Inventory")]
+    public float carriedFuel = 0f;
+    public float maxCarry = 100f;
+
+    [Header("UI (optional)")]
+    public InteractionPromptUI promptUI;    // assign the InteractPrompt GameObject (with InteractionPromptUI)
+    public Text carriedFuelText;            // optional numeric carried fuel display
+
+    private FuelItem pointedFuel;
+    private FireController pointedFire;             // only set if the raycast hit a BoxCollider on the campfire
+    private FireController nearbyFireInRange;       // search result restricted to fires with BoxCollider
+
+    // suppress automatic prompt updates while a temporary prompt is visible
+    private float promptSuppressUntil = 0f;
+
     void Start()
     {
-        playerCamera = Camera.main;
         if (playerCamera == null)
-        {
-            playerCamera = GetComponentInChildren<Camera>();
-        }
-        
-        audioSource = GetComponent<AudioSource>();
-        if (audioSource == null)
-        {
-            audioSource = gameObject.AddComponent<AudioSource>();
-        }
-        
-        if (interactionPrompt != null)
-        {
-            interactionPrompt.SetActive(false);
-        }
+            playerCamera = Camera.main;
     }
-    
+
     void Update()
     {
-        CheckForInteractables();
-        
+        UpdatePointedTarget();
+        UpdateCarriedUI();
+        UpdatePromptUI();
+
         if (Input.GetKeyDown(interactKey))
         {
-            PerformInteraction();
+            if (pointedFuel != null && !pointedFuel.isCollected)
+            {
+                TryCollectFuel(pointedFuel);
+            }
+            else
+            {
+                // Prefer pointedFire (must be on a BoxCollider). If none, find nearest fire's BoxCollider within proximity radius (action-only)
+                FireController fireToUse = pointedFire ?? nearbyFireInRange;
+                if (fireToUse != null && carriedFuel > 0f)
+                {
+                    float added = carriedFuel;
+                    if (fireToUse.AddFuel(added))
+                    {
+                        // Immediately hide any current prompt so it won't linger
+                        promptUI?.HideImmediate();
+
+                        // Clear carried fuel immediately so prompt logic doesn't re-show the add prompt
+                        carriedFuel = 0f;
+                        UpdateCarriedUI();
+
+                        // Suppress UpdatePromptUI while showing the temporary success message
+                        float duration = 1.5f;
+                        promptSuppressUntil = Time.time + duration;
+                        promptUI?.ShowTemporary($"+{Mathf.CeilToInt(added)} fuel added", duration);
+
+                        // Clear pointed references so next frames don't accidentally re-show the prompt
+                        pointedFire = null;
+                        nearbyFireInRange = null;
+                    }
+                    else
+                    {
+                        float duration = 1.25f;
+                        promptSuppressUntil = Time.time + duration;
+                        promptUI?.ShowTemporary("Campfire cannot accept more fuel", duration);
+                    }
+                }
+            }
         }
     }
-    
-    void CheckForInteractables()
+
+    // Raycast from camera center to determine what the player is pointing at.
+    private void UpdatePointedTarget()
     {
+        pointedFuel = null;
+        pointedFire = null;
+        nearbyFireInRange = null;
+
+        if (playerCamera == null) return;
+
+        Ray ray = playerCamera.ScreenPointToRay(new Vector3(Screen.width / 2f, Screen.height / 2f, 0f));
         RaycastHit hit;
-        Vector3 rayOrigin = playerCamera.transform.position;
-        Vector3 rayDirection = playerCamera.transform.forward;
-        
-        if (Physics.Raycast(rayOrigin, rayDirection, out hit, interactionRange))
+        if (Physics.Raycast(ray, out hit, maxInteractDistance, interactLayerMask, QueryTriggerInteraction.Collide))
         {
-            GameObject hitObject = hit.collider.gameObject;
-            
-            // Check for fuel items
-            FuelItem fuelItem = hitObject.GetComponent<FuelItem>();
-            if (fuelItem != null && !fuelItem.isCollected)
+            // fuel items: accept any hit (they typically have trigger colliders)
+            pointedFuel = hit.collider.GetComponent<FuelItem>() ?? hit.collider.GetComponentInParent<FuelItem>() ?? hit.collider.GetComponentInChildren<FuelItem>();
+
+            // fire: only treat as "pointed" if the ray actually hit a BoxCollider that belongs to the FireController
+            FireController fc = hit.collider.GetComponent<FireController>() ?? hit.collider.GetComponentInParent<FireController>() ?? hit.collider.GetComponentInChildren<FireController>();
+            if (fc != null)
             {
-                currentFuelItem = fuelItem;
-                currentFire = null;
-                ShowInteractionPrompt($"Collect {fuelItem.GetFuelType()} (E)");
-                return;
-            }
-            
-            // Check for fire
-            FireController fire = hitObject.GetComponent<FireController>();
-            if (fire != null)
-            {
-                currentFire = fire;
-                currentFuelItem = null;
-                
-                if (fire.IsBurning())
+                // check whether the EXACT collider hit (or a parent/child) is a BoxCollider on the fire
+                BoxCollider hitBox = hit.collider as BoxCollider;
+                if (hitBox == null)
                 {
-                    ShowInteractionPrompt($"Fire is burning - Fuel: {fire.GetFuelPercentage():P0} (E to add fuel)");
+                    // try to find a BoxCollider on the fire root/children
+                    hitBox = fc.GetComponent<BoxCollider>() ?? fc.GetComponentInChildren<BoxCollider>();
+                    // if a box collider exists but the ray didn't hit it, we don't set pointedFire
+                    // this ensures sphere collider (warmth area) won't enable "add fuel" prompt
+                    if (hitBox != null)
+                    {
+                        // confirm the raycast actually intersected the box collider bounds (best-effort)
+                        // use ClosestPoint to detect whether the hit point lies on/near the box bounds
+                        Vector3 closest = hitBox.ClosestPoint(hit.point);
+                        if (Vector3.Distance(closest, hit.point) <= 0.01f)
+                        {
+                            pointedFire = fc;
+                        }
+                    }
                 }
                 else
                 {
-                    ShowInteractionPrompt($"Light fire (E) - Needs {fire.minFuelToBurn} fuel");
+                    // raycast directly hit a BoxCollider
+                    pointedFire = fc;
                 }
-                return;
             }
         }
-        
-        // No interactables found
-        currentFuelItem = null;
-        currentFire = null;
-        HideInteractionPrompt();
+
+        // Find nearest fire within proximity radius (action fallback only).
+        // Only consider fires that expose a BoxCollider (we only allow adding fuel to the box area).
+        nearbyFireInRange = FindNearestFireBoxWithinRadius(proximityInteractRadius);
     }
-    
-    void PerformInteraction()
+
+    // Find nearest FireController within radius but only if the fire has a BoxCollider.
+    private FireController FindNearestFireBoxWithinRadius(float radius)
     {
-        if (currentFuelItem != null)
+        Collider[] hits = Physics.OverlapSphere(transform.position, radius, interactLayerMask, QueryTriggerInteraction.Collide);
+        FireController best = null;
+        float bestDist = float.MaxValue;
+        foreach (var c in hits)
         {
-            CollectFuelItem();
+            if (c == null) continue;
+            FireController fc = c.GetComponent<FireController>() ?? c.GetComponentInParent<FireController>() ?? c.GetComponentInChildren<FireController>();
+            if (fc == null) continue;
+
+            // get all box colliders on the fire (root + children). pick closest box.
+            BoxCollider[] boxes = fc.GetComponentsInChildren<BoxCollider>(includeInactive: false);
+            if (boxes == null || boxes.Length == 0) continue;
+
+            // compute distance from player to the closest point on any box collider
+            float nearestBoxDist = float.MaxValue;
+            foreach (var box in boxes)
+            {
+                Vector3 closest = box.ClosestPoint(transform.position);
+                float d = Vector3.Distance(transform.position, closest);
+                if (d < nearestBoxDist) nearestBoxDist = d;
+            }
+
+            if (nearestBoxDist < bestDist)
+            {
+                bestDist = nearestBoxDist;
+                best = fc;
+            }
         }
-        else if (currentFire != null)
+        return best;
+    }
+
+    private void TryCollectFuel(FuelItem item)
+    {
+        if (item == null) return;
+
+        float value = item.GetFuelValue();
+        float space = maxCarry - carriedFuel;
+        if (space <= 0f)
         {
-            InteractWithFire();
+            float duration = 1.25f;
+            promptSuppressUntil = Time.time + duration;
+            promptUI?.ShowTemporary("Cannot carry more fuel", duration);
+            return;
+        }
+
+        float collectedAmount = Mathf.Min(value, space);
+
+        bool success = item.CollectFuel();
+        if (success)
+        {
+            carriedFuel += collectedAmount;
+            carriedFuel = Mathf.Clamp(carriedFuel, 0f, maxCarry);
+            float duration = 1.25f;
+            promptSuppressUntil = Time.time + duration;
+            promptUI?.HideImmediate();
+            promptUI?.ShowTemporary($"+{Mathf.CeilToInt(collectedAmount)} fuel", duration);
+            UpdateCarriedUI();
         }
     }
-    
-    void CollectFuelItem()
+
+    private void UpdatePromptUI()
     {
-        if (currentFuelItem != null && currentFuelItem.CollectFuel())
+        if (promptUI == null) return;
+
+        // Suppress automatic prompt updates while a temporary prompt is being displayed
+        if (Time.time < promptSuppressUntil)
+            return;
+
+        // SHOW PROMPT ONLY WHEN POINTING at an interactable (fuel or campfire BoxCollider).
+        // Nearby fires are allowed as an action fallback when pressing E, but do NOT display the prompt.
+        if (pointedFuel != null)
         {
-            // Add fuel to inventory or directly to nearby fire
-            Debug.Log($"Collected {currentFuelItem.GetFuelType()} with {currentFuelItem.GetFuelValue()} fuel value");
-            
-            // Play interaction sound
-            if (interactSound != null)
-            {
-                audioSource.PlayOneShot(interactSound);
-            }
-            
-            // Find nearest fire to add fuel to
-            FireController nearestFire = FindNearestFire();
-            if (nearestFire != null && nearestFire.CanAddFuel())
-            {
-                nearestFire.AddFuel(currentFuelItem.GetFuelValue());
-                Debug.Log($"Added fuel to fire. Current fuel: {nearestFire.currentFuel}");
-            }
-            else
-            {
-                Debug.Log("No nearby fire found to add fuel to");
-            }
+            promptUI.Show($"Press {interactKey} to collect {pointedFuel.fuelType} ({Mathf.CeilToInt(pointedFuel.fuelValue)})");
         }
-    }
-    
-    void InteractWithFire()
-    {
-        if (currentFire == null) return;
-        
-        if (currentFire.IsBurning())
+        else if (pointedFire != null && carriedFuel > 0f)
         {
-            // Try to add fuel from inventory or nearby fuel items
-            FuelItem nearbyFuel = FindNearestFuelItem();
-            if (nearbyFuel != null && !nearbyFuel.isCollected)
-            {
-                nearbyFuel.CollectFuel();
-                currentFire.AddFuel(nearbyFuel.GetFuelValue());
-                Debug.Log($"Added {nearbyFuel.GetFuelValue()} fuel to fire");
-            }
-            else
-            {
-                Debug.Log("No fuel available to add to fire");
-            }
+            promptUI.Show($"Press {interactKey} to add fuel to campfire ({Mathf.CeilToInt(carriedFuel)})");
         }
         else
         {
-            // Try to light the fire
-            if (currentFire.LightFire())
-            {
-                Debug.Log("Fire lit!");
-            }
-            else
-            {
-                Debug.Log("Not enough fuel to light fire");
-            }
-        }
-        
-        // Play interaction sound
-        if (interactSound != null)
-        {
-            audioSource.PlayOneShot(interactSound);
+            promptUI.Hide();
         }
     }
-    
-    FireController FindNearestFire()
+
+    private void UpdateCarriedUI()
     {
-        FireController[] fires = FindObjectsOfType<FireController>();
-        FireController nearest = null;
-        float nearestDistance = float.MaxValue;
-        
-        foreach (FireController fire in fires)
-        {
-            float distance = Vector3.Distance(transform.position, fire.transform.position);
-            if (distance < nearestDistance && distance <= interactionRange * 2)
-            {
-                nearest = fire;
-                nearestDistance = distance;
-            }
-        }
-        
-        return nearest;
+        if (carriedFuelText == null) return;
+        carriedFuelText.text = $"Carried Fuel: {Mathf.CeilToInt(carriedFuel)} / {Mathf.CeilToInt(maxCarry)}";
     }
-    
-    FuelItem FindNearestFuelItem()
-    {
-        FuelItem[] fuelItems = FindObjectsOfType<FuelItem>();
-        FuelItem nearest = null;
-        float nearestDistance = float.MaxValue;
-        
-        foreach (FuelItem fuel in fuelItems)
-        {
-            if (!fuel.isCollected)
-            {
-                float distance = Vector3.Distance(transform.position, fuel.transform.position);
-                if (distance < nearestDistance && distance <= interactionRange * 2)
-                {
-                    nearest = fuel;
-                    nearestDistance = distance;
-                }
-            }
-        }
-        
-        return nearest;
-    }
-    
-    void ShowInteractionPrompt(string message)
-    {
-        if (interactionPrompt != null)
-        {
-            interactionPrompt.SetActive(true);
-            // You can set the text here if you have a Text component
-            // interactionPrompt.GetComponent<Text>().text = message;
-        }
-        Debug.Log(message);
-    }
-    
-    void HideInteractionPrompt()
-    {
-        if (interactionPrompt != null)
-        {
-            interactionPrompt.SetActive(false);
-        }
-    }
-    
+
     void OnDrawGizmosSelected()
     {
-        // Draw interaction range in editor
+        if (playerCamera == null)
+        {
+            if (Camera.main != null)
+                playerCamera = Camera.main;
+            else
+                return;
+        }
+
+        Vector3 origin = playerCamera.transform.position;
+        Vector3 dir = playerCamera.transform.forward;
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, interactionRange);
+        Gizmos.DrawLine(origin, origin + dir * maxInteractDistance);
+        Gizmos.DrawWireSphere(origin + dir * maxInteractDistance, 0.05f);
+
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireSphere(transform.position, proximityInteractRadius);
     }
 }
