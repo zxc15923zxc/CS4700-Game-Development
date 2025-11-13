@@ -44,6 +44,17 @@ public class PlayerController : MonoBehaviour
     public AudioClip jumpSound;
     public AudioClip landSound;
 
+    [Header("Combat")]
+    public float attackRate = 1.0f;            // Attacks per second
+    public float attackAnimationDelay = 0.1f;  // Delay before animation starts (helps sync)
+    public float attackCooldown = 0.4f;        // Delay before you can move/attack again
+    public AudioClip attackSound;
+
+    private bool isAttacking = false;
+    private float nextAttackTime = 0f;
+    private Animator animator;
+
+
     private Vector3 velocity;
     private bool isGrounded;
     private AudioSource audioSource;
@@ -89,6 +100,8 @@ public class PlayerController : MonoBehaviour
         // Initialize health and temperature
         currentHealth = maxHealth;
         bodyTemperature = 37f;
+
+        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -96,7 +109,43 @@ public class PlayerController : MonoBehaviour
         HandleMovement();
         HandleSurvival();
         HandleInteraction();
+        HandleCombat();
     }
+
+    void HandleCombat()
+    {
+	// Basic left-click or attack button input
+	if (Input.GetButtonDown("Fire1") && Time.time >= nextAttackTime && !isAttacking)
+	{
+	    StartCoroutine(PerformAttack());
+	}
+    }
+
+
+    IEnumerator PerformAttack()
+    {
+	isAttacking = true;
+	nextAttackTime = Time.time + 1f / attackRate;
+
+	// Small pre-delay before animation (optional)
+	yield return new WaitForSeconds(attackAnimationDelay);
+
+	// Trigger attack animation
+	if (animator != null)
+	{
+	    animator.SetTrigger("Attack");
+	}
+
+	// Play attack sound if assigned
+	PlaySound(attackSound);
+
+	// Prevent movement or repeat attacks during cooldown
+	yield return new WaitForSeconds(attackCooldown);
+
+	isAttacking = false;
+    }
+
+
 
     void HandleMovement()
     {

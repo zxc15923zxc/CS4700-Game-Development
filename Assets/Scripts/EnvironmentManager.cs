@@ -9,6 +9,8 @@ public class EnvironmentManager : MonoBehaviour
     public int numberOfTrees = 10;
     public int numberOfGrassPatches = 20;
     public int numberOfFuelItems = 15;
+    public int numberOfRuins = 15;
+    public int numberOfMushrooms = 40;
     
     [Header("Spawn Areas")]
     public Transform spawnArea;
@@ -21,6 +23,8 @@ public class EnvironmentManager : MonoBehaviour
     public GameObject stickPrefab;
     public GameObject grassFuelPrefab;
     public GameObject firePrefab;
+    public GameObject ruinsPrefab;
+    public GameObject mushroomPrefab;
     
     [Header("Spawn Settings")]
     public float minSpawnDistance = 5f;
@@ -46,7 +50,12 @@ public class EnvironmentManager : MonoBehaviour
         
         // Spawn fuel items
         SpawnFuelItems(center, spawnRadius);
-        
+
+        // Spawns ruins decor
+        SpawnObjects(ruinsPrefab, numberOfRuins, center, spawnRadius, "Ruins");
+
+        // Spawns mushroom decor
+        SpawnObjects(mushroomPrefab, numberOfMushrooms, center, spawnRadius, "Mushrooms");
         // Spawn a campfire
         SpawnCampfire(center);
         
