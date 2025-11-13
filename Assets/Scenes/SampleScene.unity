@@ -1099,6 +1099,10 @@ MonoBehaviour:
   footstepSounds: []
   jumpSound: {fileID: 0}
   landSound: {fileID: 0}
+  attackRate: 1
+  attackAnimationDelay: 0.1
+  attackCooldown: 0.4
+  attackSound: {fileID: 0}
 --- !u!114 &1140453934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1828,6 +1832,7 @@ MonoBehaviour:
   numberOfGrassPatches: 200
   numberOfFuelItems: 100
   numberOfRuins: 10
+  numberOfMushrooms: 20
   spawnArea: {fileID: 1140453931}
   spawnRadius: 200
   treePrefab: {fileID: 2222111361404534124, guid: 3e803907c61281a4281bb6b769d91144, type: 3}
@@ -1837,7 +1842,7 @@ MonoBehaviour:
   grassFuelPrefab: {fileID: 0}
   firePrefab: {fileID: 0}
   ruinsPrefab: {fileID: 3669657689831181937, guid: b7e72b2b99e757143846e12dc66116f2, type: 3}
-  mushroomPrefab: {fileID: 919132149155446097, guid: 49391071842577c4b890d0bdb964dc31, type: 3}
+  mushroomPrefab: {fileID: 919132149155446097, guid: e4544f525334a3b418bb6533d326395b, type: 3}
   minSpawnDistance: 5
   groundLayer:
     serializedVersion: 2
