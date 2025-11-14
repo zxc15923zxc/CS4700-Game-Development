@@ -1,7 +1,6 @@
 #  Campfire Survival
 *A project for CS4700 – Game Development*
 
-![Campfire Survival Banner]  
 > Keep the fire alive.
 
 ---
