@@ -50,8 +50,6 @@ public class PlayerController : MonoBehaviour
     public float attackCooldown = 0.4f;        // Delay before you can move/attack again
     public AudioClip attackSound;
 
-    private bool isAttacking = false;
-    private float nextAttackTime = 0f;
     private Animator animator;
 
 
@@ -114,39 +112,13 @@ public class PlayerController : MonoBehaviour
 
     void HandleCombat()
     {
-	// Basic left-click or attack button input
+	// Basic left-click
 	if (Input.GetMouseButtonDown(0))
 	{
             Debug.Log("Left click detect");
-	    StartCoroutine(PerformAttack());
+            animator.SetTrigger("PunchRight");
 	}
     }
-
-
-    IEnumerator PerformAttack()
-    {
-	isAttacking = true;
-	nextAttackTime = Time.time + 1f / attackRate;
-
-	// Small pre-delay before animation
-	yield return new WaitForSeconds(attackAnimationDelay);
-
-	// Trigger attack animation
-	if (animator != null)
-	{
-	    animator.SetTrigger("PunchRight");
-	}
-
-	// Play attack sound if assigned
-	PlaySound(attackSound);
-
-	// Prevent movement or repeat attacks during cooldown
-	yield return new WaitForSeconds(attackCooldown);
-
-	isAttacking = false;
-    }
-
-
 
     void HandleMovement()
     {
