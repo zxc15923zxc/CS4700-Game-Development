@@ -29,8 +29,7 @@ public class PlayerController : MonoBehaviour
     public float maxTemperature = 45f; // Maximum safe temperature
     public float ambientTemperature = 15f; // Outside temperature
 
-    // New: control how quickly body temperature moves toward the target.
-    // Tweak these in the Inspector:
+    //control how quickly body temperature moves toward the target.
     public float temperatureLerpSpeedNearFire = 2.0f;      // faster when near fire
     public float temperatureLerpSpeedAwayFromFire = 0.2f;  // slower when away from fire
     public float fireInfluenceRadius = 10f;                // same radius used for influence calculation
