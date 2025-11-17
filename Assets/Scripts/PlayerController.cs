@@ -115,8 +115,9 @@ public class PlayerController : MonoBehaviour
     void HandleCombat()
     {
 	// Basic left-click or attack button input
-	if (Input.GetButtonDown("Fire1") && Time.time >= nextAttackTime && !isAttacking)
+	if (Input.GetMouseButtonDown(0))
 	{
+            Debug.Log("Left click detect");
 	    StartCoroutine(PerformAttack());
 	}
     }
@@ -127,13 +128,13 @@ public class PlayerController : MonoBehaviour
 	isAttacking = true;
 	nextAttackTime = Time.time + 1f / attackRate;
 
-	// Small pre-delay before animation (optional)
+	// Small pre-delay before animation
 	yield return new WaitForSeconds(attackAnimationDelay);
 
 	// Trigger attack animation
 	if (animator != null)
 	{
-	    animator.SetTrigger("Attack");
+	    animator.SetTrigger("PunchRight");
 	}
 
 	// Play attack sound if assigned
