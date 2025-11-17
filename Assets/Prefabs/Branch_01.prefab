@@ -125,4 +125,4 @@ MonoBehaviour:
   collectSound: {fileID: 0}
   rotationSpeed: 50
   bobSpeed: 2
-  bobHeight: 0.5
+  bobHeight: 0

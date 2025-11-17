@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Campfire", "Campfire.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{276508A0-CE24-A0CD-C4DE-DBCA4B58413C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{D0E564C8-FD22-A9F7-8FD7-75409F46D610}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abiogenesis3d.Shared", "Abiogenesis3d.Shared.csproj", "{597C5899-5202-5DFF-B8CD-EA3E13C8FEBF}"
 EndProject
 Global
@@ -21,6 +23,10 @@ Global
 		{276508A0-CE24-A0CD-C4DE-DBCA4B58413C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{276508A0-CE24-A0CD-C4DE-DBCA4B58413C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{276508A0-CE24-A0CD-C4DE-DBCA4B58413C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0E564C8-FD22-A9F7-8FD7-75409F46D610}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0E564C8-FD22-A9F7-8FD7-75409F46D610}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0E564C8-FD22-A9F7-8FD7-75409F46D610}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0E564C8-FD22-A9F7-8FD7-75409F46D610}.Release|Any CPU.Build.0 = Release|Any CPU
 		{597C5899-5202-5DFF-B8CD-EA3E13C8FEBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{597C5899-5202-5DFF-B8CD-EA3E13C8FEBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{597C5899-5202-5DFF-B8CD-EA3E13C8FEBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
