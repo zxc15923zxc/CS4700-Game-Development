@@ -31,10 +31,7 @@ Players must gather resources, manage campfire fuel and warmth, and maintain the
 |-----------|--------------------|
 | **Game Engine** | Unity (2022.3 LTS) |
 | **Language** | C# |
-| **Networking** | Unity Netcode / Mirror |
 | **Version Control** | Git & GitHub |
-| **Art & Assets** | Blender, Photoshop |
-| **Audio** | FMOD / Unity Audio System |
 
 ---
 
