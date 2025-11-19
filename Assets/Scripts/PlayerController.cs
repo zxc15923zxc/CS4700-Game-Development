@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
     public float maxTemperature = 45f; // Maximum safe temperature
     public float ambientTemperature = 15f; // Outside temperature
 
-    //control how quickly body temperature moves toward the target.
+    // control how quickly body temperature moves toward the target.
     public float temperatureLerpSpeedNearFire = 2.0f;      // faster when near fire
     public float temperatureLerpSpeedAwayFromFire = 0.2f;  // slower when away from fire
     public float fireInfluenceRadius = 10f;                // same radius used for influence calculation
@@ -38,10 +38,27 @@ public class PlayerController : MonoBehaviour
     public GameObject healthBar;
     public GameObject temperatureIndicator;
 
-    [Header("Audio")]
-    public AudioClip[] footstepSounds;
-    public AudioClip jumpSound;
-    public AudioClip landSound;
+    // =======================
+    // AUDIO
+    // =======================
+    [Header("Run Footsteps Only")]
+    [Tooltip("Drop your Footsteps_Grass_Run_01..15 clips here")]
+    public AudioClip[] footstepRunClips;
+    [Range(0f, 10f)] public float footstepVolume = 0.6f;
+    [Range(0f, 0.2f)] public float footstepPitchJitter = 0.05f;
+    [Tooltip("Seconds between steps while running")]
+    public float runStepInterval = 0.32f;
+    [Tooltip("Planar speed at/over this counts as running")]
+    public float runSpeedThreshold = 5f;
+
+    [Header("Jump Audio (paired)")]
+    [Tooltip("Start/takeoff clips: Footsteps_Grass_Jump_Start_01..")]
+    public AudioClip[] jumpStartClips;
+    [Tooltip("Land clips that pair by index with Start clips")]
+    public AudioClip[] jumpLandClips;
+    [Range(0f, 10f)] public float jumpStartVolume = 0.8f;
+    [Range(0f, 10f)] public float jumpLandVolume = 0.9f;
+    [Range(0f, 0.2f)] public float jumpPitchJitter = 0.05f;
 
     [Header("Combat")]
     public float attackRate = 1.0f;            // Attacks per second
@@ -51,13 +68,21 @@ public class PlayerController : MonoBehaviour
 
     private Animator animator;
 
-
     private Vector3 velocity;
     private bool isGrounded;
+    private bool wasGrounded;
     private AudioSource audioSource;
     private FireController nearbyFire;
+
+    // run footstep state
     private float footstepTimer = 0f;
-    private float footstepInterval = 0.5f;
+    private int lastFootIndex = -1;
+
+    // jump state
+    private bool pendingLandSound;
+    private int lastJumpIndex = -1;
+
+    private bool isDead;
 
     void Start()
     {
@@ -65,8 +90,13 @@ public class PlayerController : MonoBehaviour
         if (controller == null)
             controller = GetComponent<CharacterController>();
 
+        audioSource = GetComponent<AudioSource>();
         if (audioSource == null)
-            audioSource = GetComponent<AudioSource>();
+            audioSource = gameObject.AddComponent<AudioSource>();
+
+        audioSource.playOnAwake = false;
+        audioSource.spatialBlend = 1f;   // 3D
+        audioSource.dopplerLevel = 0f;
 
         // Initialize velocity to prevent flying
         velocity = Vector3.zero;
@@ -111,12 +141,14 @@ public class PlayerController : MonoBehaviour
 
     void HandleCombat()
     {
-	// Basic left-click
-	if (Input.GetMouseButtonDown(0))
-	{
+        // Basic left-click
+        if (Input.GetMouseButtonDown(0))
+        {
             Debug.Log("Left click detect");
-            animator.SetTrigger("PunchRight");
-	}
+            if (animator != null) animator.SetTrigger("PunchRight");
+            // Optional: play attackSound here if you want audio feedback on punch:
+            // PlayOneShotSafe(attackSound, 1f);
+        }
     }
 
     void HandleMovement()
@@ -124,55 +156,58 @@ public class PlayerController : MonoBehaviour
         // Ground check
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
-        // Debug ground check
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            Debug.Log($"Grounded: {isGrounded}, Velocity Y: {velocity.y}");
-        }
+        if (isGrounded && velocity.y < 0f)
+            velocity.y = -2f;
 
-        // Reset velocity when grounded
-        if (isGrounded && velocity.y < 0)
-        {
-            velocity.y = -2f; // Small downward force to keep grounded
-        }
-
-        // Get input
+        // ----- INPUT -----
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
-        // Debug input
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            Debug.Log($"Input: x={x}, z={z}, Player Rotation: {transform.rotation.eulerAngles}");
-        }
+        // Horizontal movement vector (local space), NOT yet multiplied by Time.deltaTime
+        Vector3 horizDir = (transform.right * x + transform.forward * z);
+        Vector3 horizVel = horizDir.normalized * speed;      // actual horizontal velocity (m/s)
+        float planarSpeed = horizVel.magnitude;               // use this for footsteps
 
-        // Calculate movement (only horizontal movement)
-        Vector3 move = transform.right * x + transform.forward * z;
-        controller.Move(move * speed * Time.deltaTime);
-
-        // Jumping
+        // Jump (play start now and arm land)
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-            PlaySound(jumpSound);
+            PlayJumpStart();
+            pendingLandSound = true;
         }
 
-        // Apply gravity with terminal velocity limit
+        // Gravity
         velocity.y += gravity * Time.deltaTime;
         velocity.y = Mathf.Max(velocity.y, terminalVelocity);
 
-        // Apply vertical movement
-        controller.Move(new Vector3(0, velocity.y * Time.deltaTime, 0));
+        // ----- ONE SINGLE MOVE CALL -----
+        Vector3 totalMotion = (horizVel + new Vector3(0f, velocity.y, 0f)) * Time.deltaTime;
+        controller.Move(totalMotion);
 
-        // Footstep sounds
-        if (isGrounded && (x != 0 || z != 0))
+        // Land sound (edge)
+        if (!wasGrounded && isGrounded && pendingLandSound)
+        {
+            PlayJumpLand();
+            pendingLandSound = false;
+        }
+        wasGrounded = isGrounded;
+
+        // ----- RUN-ONLY FOOTSTEPS -----
+        bool moving = planarSpeed > 0.1f;
+        bool runningBySpeed = planarSpeed >= runSpeedThreshold;
+
+        if (isGrounded && moving && runningBySpeed)
         {
             footstepTimer += Time.deltaTime;
-            if (footstepTimer >= footstepInterval)
+            if (footstepTimer >= runStepInterval)
             {
-                PlayFootstepSound();
+                PlayRunFootstep();
                 footstepTimer = 0f;
             }
+        }
+        else
+        {
+            footstepTimer = 0f;
         }
     }
 
@@ -236,11 +271,9 @@ public class PlayerController : MonoBehaviour
 
     void UpdateUI()
     {
-        // Update temperature indicator: support Slider, Image (color), or Text as common cases.
+        // Temperature text example
         if (temperatureIndicator != null)
         {
-            float tempPct = Mathf.Clamp01(GetTemperaturePercentage());
-
             Text tempText = temperatureIndicator.GetComponent<Text>();
             if (tempText != null)
             {
@@ -251,28 +284,78 @@ public class PlayerController : MonoBehaviour
 
     void HandleInteraction()
     {
-        // This will be handled by PlayerInteraction script
-        // But we can add some player-specific interaction here if needed
+        // Reserved for later
     }
 
-    void PlayFootstepSound()
+    // =======================
+    // AUDIO HELPERS
+    // =======================
+
+    void PlayRunFootstep()
     {
-        if (footstepSounds.Length > 0 && audioSource != null)
-        {
-            AudioClip footstep = footstepSounds[Random.Range(0, footstepSounds.Length)];
-            audioSource.PlayOneShot(footstep, 0.5f);
-        }
+        var clip = NextClipNoImmediateRepeat(footstepRunClips, ref lastFootIndex);
+        if (!clip || audioSource == null) return;
+
+        audioSource.pitch = 1f + Random.Range(-footstepPitchJitter, footstepPitchJitter);
+        audioSource.PlayOneShot(clip, footstepVolume);
+        audioSource.pitch = 1f; // reset
     }
 
-    void PlaySound(AudioClip clip)
+    void PlayJumpStart()
+    {
+        if (jumpStartClips == null || jumpStartClips.Length == 0 || audioSource == null) return;
+
+        int i = (jumpStartClips.Length == 1) ? 0 : RandomIndexNotEqual(jumpStartClips.Length, lastJumpIndex);
+        lastJumpIndex = i;
+
+        var clip = jumpStartClips[i];
+        if (!clip) return;
+
+        audioSource.pitch = 1f + Random.Range(-jumpPitchJitter, jumpPitchJitter);
+        audioSource.PlayOneShot(clip, jumpStartVolume);
+        audioSource.pitch = 1f;
+    }
+
+    void PlayJumpLand()
+    {
+        if (jumpLandClips == null || jumpLandClips.Length == 0 || audioSource == null) return;
+
+        int i = Mathf.Clamp(lastJumpIndex, 0, jumpLandClips.Length - 1);
+        var clip = jumpLandClips[i];
+        if (!clip) return;
+
+        audioSource.pitch = 1f + Random.Range(-jumpPitchJitter, jumpPitchJitter);
+        audioSource.PlayOneShot(clip, jumpLandVolume);
+        audioSource.pitch = 1f;
+    }
+
+    static AudioClip NextClipNoImmediateRepeat(AudioClip[] list, ref int lastIndex)
+    {
+        if (list == null || list.Length == 0) return null;
+        if (list.Length == 1) { lastIndex = 0; return list[0]; }
+
+        int i = RandomIndexNotEqual(list.Length, lastIndex);
+        lastIndex = i;
+        return list[i];
+    }
+
+    static int RandomIndexNotEqual(int length, int notThis)
+    {
+        int i;
+        do { i = Random.Range(0, length); } while (i == notThis);
+        return i;
+    }
+
+    // =======================
+    // GAME OVER / MISC
+    // =======================
+
+    void PlayOneShotSafe(AudioClip clip, float volume = 1f)
     {
         if (clip != null && audioSource != null)
-        {
-            audioSource.PlayOneShot(clip);
-        }
+            audioSource.PlayOneShot(clip, volume);
     }
 
-    private bool isDead;
     void Die()
     {
         if (isDead) return;

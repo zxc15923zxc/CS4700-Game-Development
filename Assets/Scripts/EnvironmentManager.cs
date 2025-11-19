@@ -18,11 +18,8 @@ public class EnvironmentManager : MonoBehaviour
     
     [Header("Prefabs")]
     public GameObject treePrefab;
-    public GameObject grassPrefab;
     public GameObject woodPrefab;
     public GameObject stickPrefab;
-    public GameObject grassFuelPrefab;
-    public GameObject firePrefab;
     public GameObject ruinsPrefab;
     public GameObject mushroomPrefab;
     
@@ -45,9 +42,6 @@ public class EnvironmentManager : MonoBehaviour
         // Spawn trees
         SpawnObjects(treePrefab, numberOfTrees, center, spawnRadius, "Tree");
         
-        // Spawn grass patches
-        SpawnObjects(grassPrefab, numberOfGrassPatches, center, spawnRadius, "Grass");
-        
         // Spawn fuel items
         SpawnFuelItems(center, spawnRadius);
 
@@ -56,8 +50,6 @@ public class EnvironmentManager : MonoBehaviour
 
         // Spawns mushroom decor
         SpawnObjects(mushroomPrefab, numberOfMushrooms, center, spawnRadius, "Mushrooms");
-        // Spawn a campfire
-        SpawnCampfire(center);
         
         Debug.Log("Environment spawned successfully!");
     }
@@ -106,37 +98,9 @@ public class EnvironmentManager : MonoBehaviour
         }
     }
     
-    void SpawnCampfire(Vector3 center)
-    {
-        if (firePrefab == null)
-        {
-            Debug.LogWarning("No fire prefab assigned!");
-            return;
-        }
-        
-        // Spawn campfire near the center
-        Vector3 firePosition = center + new Vector3(
-            Random.Range(-10f, 10f),
-            0,
-            Random.Range(-10f, 10f)
-        );
-        
-        // Raycast to find ground
-        RaycastHit hit;
-        if (Physics.Raycast(firePosition + Vector3.up * 10f, Vector3.down, out hit, 20f, groundLayer))
-        {
-            firePosition = hit.point;
-        }
-        
-        GameObject campfire = Instantiate(firePrefab, firePosition, Quaternion.identity);
-        campfire.name = "Campfire";
-        
-        Debug.Log("Campfire spawned!");
-    }
-    
     GameObject GetRandomFuelPrefab()
     {
-        GameObject[] fuelPrefabs = { woodPrefab, stickPrefab, grassFuelPrefab };
+        GameObject[] fuelPrefabs = { woodPrefab, stickPrefab };
         List<GameObject> availablePrefabs = new List<GameObject>();
         
         foreach (GameObject prefab in fuelPrefabs)
