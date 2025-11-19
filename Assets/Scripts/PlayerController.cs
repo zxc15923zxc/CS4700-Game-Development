@@ -236,43 +236,6 @@ public class PlayerController : MonoBehaviour
 
     void UpdateUI()
     {
-        // Update health bar using the project's HealthBar component when available.
-        if (healthBar != null)
-        {
-            HealthBar hb = healthBar.GetComponent<HealthBar>();
-            // If HealthBar component exists, keep it in sync:
-            if (hb != null)
-            {
-                // If HealthBar expects a PlayerState, assign the project's singleton if available.
-                if (hb.playerState == null && PlayerState.Instance != null)
-                {
-                    hb.playerState = PlayerState.Instance.gameObject;
-                }
-
-                // Try to update the Slider on the same GameObject (instant visual sync).
-                Slider slider = healthBar.GetComponent<Slider>();
-                if (slider != null)
-                {
-                    slider.value = (maxHealth > 0f) ? (currentHealth / maxHealth) : 0f;
-                }
-
-                // Update numeric counter if present.
-                if (hb.healthCounter != null)
-                {
-                    hb.healthCounter.text = Mathf.CeilToInt(currentHealth) + " / " + Mathf.CeilToInt(maxHealth);
-                }
-            }
-            else
-            {
-                // Fallbacks if healthBar is a raw Image or other simple UI element.
-                Image img = healthBar.GetComponent<Image>();
-                if (img != null)
-                {
-                    img.fillAmount = (maxHealth > 0f) ? (currentHealth / maxHealth) : 0f;
-                }
-            }
-        }
-
         // Update temperature indicator: support Slider, Image (color), or Text as common cases.
         if (temperatureIndicator != null)
         {
@@ -309,11 +272,28 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private bool isDead;
     void Die()
     {
+        if (isDead) return;
+        isDead = true;
+
+        currentHealth = 0f; // clamp
         Debug.Log("Player died!");
-        // Implement death logic here
-        // You could restart the scene, show game over screen, etc.
+
+        // Show Game Over if it's in the scene
+        if (GameOverUI.Instance != null)
+        {
+            GameOverUI.Instance.Show();
+        }
+        else
+        {
+            Debug.LogWarning("GameOverUI.Instance is null. Make sure a GameOverUI is in the scene and its panel is wired.");
+        }
+
+        // Optional: stop controls, unlock cursor, etc.
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     public void SetNearbyFire(FireController fire)
