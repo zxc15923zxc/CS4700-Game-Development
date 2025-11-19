@@ -146,8 +146,6 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("Left click detect");
             if (animator != null) animator.SetTrigger("PunchRight");
-            // Optional: play attackSound here if you want audio feedback on punch:
-            // PlayOneShotSafe(attackSound, 1f);
         }
     }
 
@@ -168,6 +166,16 @@ public class PlayerController : MonoBehaviour
         Vector3 horizVel = horizDir.normalized * speed;      // actual horizontal velocity (m/s)
         float planarSpeed = horizVel.magnitude;               // use this for footsteps
 
+        // Animation
+
+        if (planarSpeed > 0f)
+        {
+            animator.SetFloat("planarSpeed", 1);
+        }
+        else
+        {
+            animator.SetFloat("planarSpeed", 0);
+        }
         // Jump (play start now and arm land)
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
