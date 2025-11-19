@@ -1,34 +1,31 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
+    [Header("References")]
+    [SerializeField] private Slider slider;               // assign the Slider on this GO
+    [SerializeField] private Text healthCounter;          // optional, assign if you have one
+    [SerializeField] private PlayerController player;     // assign your Player (has current/maxHealth)
 
-    private Slider slider;
-    public Text healthCounter;
-
-    public GameObject playerState;
-
-    private float currentHealth, maxhealth;
-
-
-    // Start is called before the first frame update
-    void Awake()
+    private void Awake()
     {
-        slider = GetComponent<Slider>();
+        // Fallbacks so we don't NRE if you forgot to assign in Inspector.
+        if (slider == null) slider = GetComponent<Slider>();
+        if (player == null) player = FindObjectOfType<PlayerController>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        currentHealth = playerState.GetComponent<PlayerState>().currentHealth;
-        maxhealth = playerState.GetComponent<PlayerState>().maxHealth;
+        if (player == null || slider == null) return;
 
-        float fillValue = currentHealth / maxhealth;
-        slider.value = fillValue;
+        float current = Mathf.Max(0f, player.currentHealth);
+        float max = Mathf.Max(0.0001f, player.maxHealth); // prevent division by zero
+        slider.value = current / max;
 
-        healthCounter.text = currentHealth + " / "  + maxhealth;
+        if (healthCounter != null)
+        {
+            healthCounter.text = Mathf.CeilToInt(current) + " / " + Mathf.CeilToInt(max);
+        }
     }
 }

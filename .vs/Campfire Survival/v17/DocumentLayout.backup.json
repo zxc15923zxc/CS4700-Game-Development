@@ -3,16 +3,32 @@
   "WorkspaceRootPath": "C:\\Users\\zzfor\\CS4700\\Campfire Survival\\Campfire Survival\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{276508A0-CE24-A0CD-C4DE-DBCA4B58413C}|Assembly-CSharp.csproj|c:\\users\\zzfor\\cs4700\\campfire survival\\campfire survival\\assets\\scripts\\gameoverui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{276508A0-CE24-A0CD-C4DE-DBCA4B58413C}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gameoverui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{276508A0-CE24-A0CD-C4DE-DBCA4B58413C}|Assembly-CSharp.csproj|C:\\Users\\zzfor\\CS4700\\Campfire Survival\\Campfire Survival\\assets\\scripts\\healthbar.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{276508A0-CE24-A0CD-C4DE-DBCA4B58413C}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\healthbar.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{276508A0-CE24-A0CD-C4DE-DBCA4B58413C}|Assembly-CSharp.csproj|C:\\Users\\zzfor\\CS4700\\Campfire Survival\\Campfire Survival\\assets\\scripts\\playerstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{276508A0-CE24-A0CD-C4DE-DBCA4B58413C}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\playerstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{276508A0-CE24-A0CD-C4DE-DBCA4B58413C}|Assembly-CSharp.csproj|c:\\users\\zzfor\\cs4700\\campfire survival\\campfire survival\\assets\\scripts\\mainmenuui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{276508A0-CE24-A0CD-C4DE-DBCA4B58413C}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\mainmenuui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{276508A0-CE24-A0CD-C4DE-DBCA4B58413C}|Assembly-CSharp.csproj|C:\\Users\\zzfor\\CS4700\\Campfire Survival\\Campfire Survival\\Assets\\Scripts\\InteractionPromptUI.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{276508A0-CE24-A0CD-C4DE-DBCA4B58413C}|Assembly-CSharp.csproj|solutionrelative:Assets\\Scripts\\InteractionPromptUI.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{276508A0-CE24-A0CD-C4DE-DBCA4B58413C}|Assembly-CSharp.csproj|c:\\users\\zzfor\\cs4700\\campfire survival\\campfire survival\\assets\\scripts\\playerinteraction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{276508A0-CE24-A0CD-C4DE-DBCA4B58413C}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\playerinteraction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{276508A0-CE24-A0CD-C4DE-DBCA4B58413C}|Assembly-CSharp.csproj|C:\\Users\\zzfor\\CS4700\\Campfire Survival\\Campfire Survival\\assets\\scripts\\firecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{276508A0-CE24-A0CD-C4DE-DBCA4B58413C}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\firecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{276508A0-CE24-A0CD-C4DE-DBCA4B58413C}|Assembly-CSharp.csproj|C:\\Users\\zzfor\\CS4700\\Campfire Survival\\Campfire Survival\\assets\\scripts\\environmentmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{276508A0-CE24-A0CD-C4DE-DBCA4B58413C}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\environmentmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{276508A0-CE24-A0CD-C4DE-DBCA4B58413C}|Assembly-CSharp.csproj|C:\\Users\\zzfor\\CS4700\\Campfire Survival\\Campfire Survival\\assets\\scripts\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -23,16 +39,8 @@
       "RelativeMoniker": "D:0:0:{276508A0-CE24-A0CD-C4DE-DBCA4B58413C}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\fuelitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{276508A0-CE24-A0CD-C4DE-DBCA4B58413C}|Assembly-CSharp.csproj|C:\\Users\\zzfor\\CS4700\\Campfire Survival\\Campfire Survival\\assets\\scripts\\environmentmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{276508A0-CE24-A0CD-C4DE-DBCA4B58413C}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\environmentmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{276508A0-CE24-A0CD-C4DE-DBCA4B58413C}|Assembly-CSharp.csproj|C:\\Users\\zzfor\\CS4700\\Campfire Survival\\Campfire Survival\\assets\\scripts\\healthbar.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{276508A0-CE24-A0CD-C4DE-DBCA4B58413C}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\healthbar.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{276508A0-CE24-A0CD-C4DE-DBCA4B58413C}|Assembly-CSharp.csproj|C:\\Users\\zzfor\\CS4700\\Campfire Survival\\Campfire Survival\\assets\\scripts\\playerstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{276508A0-CE24-A0CD-C4DE-DBCA4B58413C}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\playerstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{276508A0-CE24-A0CD-C4DE-DBCA4B58413C}|Assembly-CSharp.csproj|C:\\Users\\zzfor\\CS4700\\Campfire Survival\\Campfire Survival\\assets\\scripts\\playerinteraction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{276508A0-CE24-A0CD-C4DE-DBCA4B58413C}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\playerinteraction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -47,6 +55,32 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "GameOverUI.cs",
+              "DocumentMoniker": "C:\\Users\\zzfor\\CS4700\\Campfire Survival\\Campfire Survival\\Assets\\Scripts\\GameOverUI.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\GameOverUI.cs",
+              "ToolTip": "C:\\Users\\zzfor\\CS4700\\Campfire Survival\\Campfire Survival\\Assets\\Scripts\\GameOverUI.cs",
+              "RelativeToolTip": "Assets\\Scripts\\GameOverUI.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-19T18:55:23.755Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "MainMenuUI.cs",
+              "DocumentMoniker": "C:\\Users\\zzfor\\CS4700\\Campfire Survival\\Campfire Survival\\Assets\\Scripts\\MainMenuUI.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\MainMenuUI.cs",
+              "ToolTip": "C:\\Users\\zzfor\\CS4700\\Campfire Survival\\Campfire Survival\\Assets\\Scripts\\MainMenuUI.cs",
+              "RelativeToolTip": "Assets\\Scripts\\MainMenuUI.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-19T18:40:20.821Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "InteractionPromptUI.cs",
               "DocumentMoniker": "C:\\Users\\zzfor\\CS4700\\Campfire Survival\\Campfire Survival\\Assets\\Scripts\\InteractionPromptUI.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\InteractionPromptUI.cs",
@@ -54,49 +88,48 @@
               "RelativeToolTip": "Assets\\Scripts\\InteractionPromptUI.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-01T04:19:37.336Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-01T04:19:37.336Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 9,
               "Title": "PlayerInteraction.cs",
               "DocumentMoniker": "C:\\Users\\zzfor\\CS4700\\Campfire Survival\\Campfire Survival\\Assets\\Scripts\\PlayerInteraction.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\PlayerInteraction.cs",
               "ToolTip": "C:\\Users\\zzfor\\CS4700\\Campfire Survival\\Campfire Survival\\Assets\\Scripts\\PlayerInteraction.cs",
               "RelativeToolTip": "Assets\\Scripts\\PlayerInteraction.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAPsAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-01T03:47:15.442Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-01T03:47:15.442Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 8,
               "Title": "FuelItem.cs",
               "DocumentMoniker": "C:\\Users\\zzfor\\CS4700\\Campfire Survival\\Campfire Survival\\Assets\\Scripts\\FuelItem.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\FuelItem.cs",
               "ToolTip": "C:\\Users\\zzfor\\CS4700\\Campfire Survival\\Campfire Survival\\Assets\\Scripts\\FuelItem.cs",
               "RelativeToolTip": "Assets\\Scripts\\FuelItem.cs",
-              "ViewState": "AgIAABoAAAAAAAAAAAAQwCsAAAAyAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACsAAAAyAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-01T04:02:34.623Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 1,
               "Title": "HealthBar.cs",
               "DocumentMoniker": "C:\\Users\\zzfor\\CS4700\\Campfire Survival\\Campfire Survival\\Assets\\Scripts\\HealthBar.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\HealthBar.cs",
               "ToolTip": "C:\\Users\\zzfor\\CS4700\\Campfire Survival\\Campfire Survival\\Assets\\Scripts\\HealthBar.cs",
               "RelativeToolTip": "Assets\\Scripts\\HealthBar.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAABkAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAAwCEAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-31T19:34:27.018Z"
+              "WhenOpened": "2025-10-31T19:34:27.018Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 7,
               "Title": "PlayerController.cs",
               "DocumentMoniker": "C:\\Users\\zzfor\\CS4700\\Campfire Survival\\Campfire Survival\\Assets\\Scripts\\PlayerController.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\PlayerController.cs",
@@ -104,12 +137,11 @@
               "RelativeToolTip": "Assets\\Scripts\\PlayerController.cs",
               "ViewState": "AgIAABMAAAAAAAAAAAAAALQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-31T07:47:07.532Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-31T07:47:07.532Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 2,
               "Title": "PlayerState.cs",
               "DocumentMoniker": "C:\\Users\\zzfor\\CS4700\\Campfire Survival\\Campfire Survival\\Assets\\Scripts\\PlayerState.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\PlayerState.cs",
@@ -117,23 +149,24 @@
               "RelativeToolTip": "Assets\\Scripts\\PlayerState.cs",
               "ViewState": "AgIAAAMAAAAAAAAAAAAAAAoAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-31T19:42:06.692Z"
+              "WhenOpened": "2025-10-31T19:42:06.692Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "EnvironmentManager.cs",
               "DocumentMoniker": "C:\\Users\\zzfor\\CS4700\\Campfire Survival\\Campfire Survival\\Assets\\Scripts\\EnvironmentManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\EnvironmentManager.cs",
               "ToolTip": "C:\\Users\\zzfor\\CS4700\\Campfire Survival\\Campfire Survival\\Assets\\Scripts\\EnvironmentManager.cs",
               "RelativeToolTip": "Assets\\Scripts\\EnvironmentManager.cs",
-              "ViewState": "AgIAAHgAAAAAAAAAAAAowHoAAAAjAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHoAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-31T20:04:43.107Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "FireController.cs",
               "DocumentMoniker": "C:\\Users\\zzfor\\CS4700\\Campfire Survival\\Campfire Survival\\Assets\\Scripts\\FireController.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\FireController.cs",
@@ -141,8 +174,7 @@
               "RelativeToolTip": "Assets\\Scripts\\FireController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-31T08:49:14.882Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-31T08:49:14.882Z"
             }
           ]
         }
