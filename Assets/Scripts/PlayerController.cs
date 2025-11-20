@@ -146,9 +146,27 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("Left click detect");
             if (animator != null) animator.SetTrigger("PunchRight");
+
+            HitEnemy();
         }
     }
 
+    void HitEnemy()
+    {
+        int attackRange = 1;
+
+        RaycastHit hit;
+
+        if (Physics.Raycast(transform.position + Vector3.up, transform.forward, out hit, attackRange))
+        {
+            EnemyController enemy = hit.collider.GetComponent<EnemyController>();
+            if (enemy != null)
+            {
+                enemy.TakeDamage();
+                Debug.Log("Hit enemy!");
+            }
+        }
+    }
     void HandleMovement()
     {
         // Ground check
@@ -254,6 +272,7 @@ public class PlayerController : MonoBehaviour
 
     void UpdateHealth()
     {
+
         if (bodyTemperature < minTemperature)
         {
             // Losing health due to cold
