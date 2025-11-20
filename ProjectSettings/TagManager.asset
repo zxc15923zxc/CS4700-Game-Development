@@ -8,6 +8,7 @@ TagManager:
   - Tree
   - Grass
   - Fuel
+  - Pickup
   layers:
   - Default
   - TransparentFX
@@ -17,8 +18,8 @@ TagManager:
   - UI
   - Ground
   - Interactable
-  - 
-  - 
+  - Pickup
+  - Tree
   - 
   - 
   - 

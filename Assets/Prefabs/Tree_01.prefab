@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2016627034897836496}
   - component: {fileID: 23749049394716748}
   - component: {fileID: 804206825550485546}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Tree_01_LOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2222111361405018444}
   - component: {fileID: 230860312991076117}
-  m_Layer: 0
+  - component: {fileID: -7092627038283860867}
+  - component: {fileID: 31063714581679483}
+  m_Layer: 9
   m_Name: Tree_01
   m_TagString: Tree
   m_Icon: {fileID: 0}
@@ -140,6 +142,43 @@ LODGroup:
     renderers:
     - renderer: {fileID: 804206825550485546}
   m_Enabled: 1
+--- !u!64 &-7092627038283860867
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2222111361404534124}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
+--- !u!114 &31063714581679483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2222111361404534124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a45b60f67a2a83418e8d6f8eb6c0d07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 5
+  stickPickupPrefab: {fileID: 144344, guid: 16f9e12673a44054b9de70fbbac58c15, type: 3}
+  sticksOnBreak: 3
 --- !u!1 &7155140798900432468
 GameObject:
   m_ObjectHideFlags: 0
@@ -152,7 +191,7 @@ GameObject:
   - component: {fileID: 1255735844759439003}
   - component: {fileID: 5708200766736619226}
   - component: {fileID: 6594968128082907717}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Tree_01_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
