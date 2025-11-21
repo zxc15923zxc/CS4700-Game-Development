@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using XEntity.InventoryItemSystem;
 
 public class PlayerInteraction : MonoBehaviour
 {
@@ -20,13 +21,19 @@ public class PlayerInteraction : MonoBehaviour
     public float carriedFuel = 0f;
     public float maxCarry = 100f;
 
+    [Header("Inventory (XEntity)")]
+    [Tooltip("Player's XEntity Interactor (drag from Player). Required for harvesting by E key.")]
+    public Interactor playerInteractor; // <-- NEW
+
     [Header("UI (optional)")]
     public InteractionPromptUI promptUI;    // assign the InteractPrompt GameObject (with InteractionPromptUI)
     public Text carriedFuelText;            // optional numeric carried fuel display
 
+    // pointed targets
     private FuelItem pointedFuel;
     private FireController pointedFire;             // only set if the raycast hit a BoxCollider on the campfire
     private FireController nearbyFireInRange;       // search result restricted to fires with BoxCollider
+    private InstantHarvest pointedHarvest;          // <-- NEW
 
     // suppress automatic prompt updates while a temporary prompt is visible
     private float promptSuppressUntil = 0f;
@@ -45,6 +52,29 @@ public class PlayerInteraction : MonoBehaviour
 
         if (Input.GetKeyDown(interactKey))
         {
+            // --- NEW: harvest pickups with E ---
+            if (pointedHarvest != null)
+            {
+                if (playerInteractor == null)
+                {
+                    Debug.LogWarning("PlayerInteraction: playerInteractor is not assigned. Drag your Interactor here.");
+                }
+                else
+                {
+                    // Will add to inventory and mark as harvested
+                    pointedHarvest.AttemptHarvest(playerInteractor); // InstantHarvest takes Interactor
+
+                    // Feedback
+                    float d = 1.0f;
+                    promptSuppressUntil = Time.time + d;
+                    promptUI?.HideImmediate();
+                    string label = (pointedHarvest.harvestItem != null) ? pointedHarvest.harvestItem.name : "Item";
+                    promptUI?.ShowTemporary($"+ {label}", d);
+                }
+                return; // don’t also consume fuel this frame
+            }
+
+            // Existing: fuel collect
             if (pointedFuel != null && !pointedFuel.isCollected)
             {
                 TryCollectFuel(pointedFuel);
@@ -91,6 +121,7 @@ public class PlayerInteraction : MonoBehaviour
         pointedFuel = null;
         pointedFire = null;
         nearbyFireInRange = null;
+        pointedHarvest = null; // <-- NEW
 
         if (playerCamera == null) return;
 
@@ -99,7 +130,14 @@ public class PlayerInteraction : MonoBehaviour
         if (Physics.Raycast(ray, out hit, maxInteractDistance, interactLayerMask, QueryTriggerInteraction.Collide))
         {
             // fuel items: accept any hit (they typically have trigger colliders)
-            pointedFuel = hit.collider.GetComponent<FuelItem>() ?? hit.collider.GetComponentInParent<FuelItem>() ?? hit.collider.GetComponentInChildren<FuelItem>();
+            pointedFuel = hit.collider.GetComponent<FuelItem>()
+                       ?? hit.collider.GetComponentInParent<FuelItem>()
+                       ?? hit.collider.GetComponentInChildren<FuelItem>();
+
+            // --- NEW: instant harvestables (rocks, mushrooms, sticks from XEntity) ---
+            pointedHarvest = hit.collider.GetComponent<InstantHarvest>()
+                          ?? hit.collider.GetComponentInParent<InstantHarvest>()
+                          ?? hit.collider.GetComponentInChildren<InstantHarvest>();
 
             // fire: only treat as "pointed" if the ray actually hit a BoxCollider that belongs to the FireController
             FireController fc = hit.collider.GetComponent<FireController>() ?? hit.collider.GetComponentInParent<FireController>() ?? hit.collider.GetComponentInChildren<FireController>();
@@ -112,11 +150,8 @@ public class PlayerInteraction : MonoBehaviour
                     // try to find a BoxCollider on the fire root/children
                     hitBox = fc.GetComponent<BoxCollider>() ?? fc.GetComponentInChildren<BoxCollider>();
                     // if a box collider exists but the ray didn't hit it, we don't set pointedFire
-                    // this ensures sphere collider (warmth area) won't enable "add fuel" prompt
                     if (hitBox != null)
                     {
-                        // confirm the raycast actually intersected the box collider bounds (best-effort)
-                        // use ClosestPoint to detect whether the hit point lies on/near the box bounds
                         Vector3 closest = hitBox.ClosestPoint(hit.point);
                         if (Vector3.Distance(closest, hit.point) <= 0.01f)
                         {
@@ -208,9 +243,13 @@ public class PlayerInteraction : MonoBehaviour
         if (Time.time < promptSuppressUntil)
             return;
 
-        // SHOW PROMPT ONLY WHEN POINTING at an interactable (fuel or campfire BoxCollider).
-        // Nearby fires are allowed as an action fallback when pressing E, but do NOT display the prompt.
-        if (pointedFuel != null)
+        // --- NEW: harvest prompt has priority ---
+        if (pointedHarvest != null)
+        {
+            string label = (pointedHarvest.harvestItem != null) ? pointedHarvest.harvestItem.name : "item";
+            promptUI.Show($"Press {interactKey} to pick up {label}");
+        }
+        else if (pointedFuel != null)
         {
             promptUI.Show($"Press {interactKey} to collect {pointedFuel.fuelType} ({Mathf.CeilToInt(pointedFuel.fuelValue)})");
         }

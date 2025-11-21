@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{276508A0-CE24-A0CD-C4DE-DBCA4B58413C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XEntity.InventoryItemSystem", "XEntity.InventoryItemSystem.csproj", "{320A2015-E470-F2BF-E392-7378918FEE7F}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Campfire", "Campfire.csproj", "{2F9A01A6-6CFE-6589-7520-A82334F00943}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{D0E564C8-FD22-A9F7-8FD7-75409F46D610}"
@@ -19,6 +21,10 @@ Global
 		{276508A0-CE24-A0CD-C4DE-DBCA4B58413C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{276508A0-CE24-A0CD-C4DE-DBCA4B58413C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{276508A0-CE24-A0CD-C4DE-DBCA4B58413C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{320A2015-E470-F2BF-E392-7378918FEE7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{320A2015-E470-F2BF-E392-7378918FEE7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{320A2015-E470-F2BF-E392-7378918FEE7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{320A2015-E470-F2BF-E392-7378918FEE7F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2F9A01A6-6CFE-6589-7520-A82334F00943}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2F9A01A6-6CFE-6589-7520-A82334F00943}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F9A01A6-6CFE-6589-7520-A82334F00943}.Release|Any CPU.ActiveCfg = Release|Any CPU

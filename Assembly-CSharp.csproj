@@ -66,6 +66,7 @@
     <Compile Include="Assets\FantasyEnvironments\Environments\Town\Scripts\Door.cs" />
     <Compile Include="Assets\Scripts\EnemyController.cs" />
     <Compile Include="Assets\Scripts\FuelUI.cs" />
+    <Compile Include="Assets\XEntity GameKit\Demo\Scripts\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\PlayerInteraction.cs" />
     <Compile Include="Assets\Scripts\EnvironmentManager.cs" />
     <Compile Include="Assets\Scripts\HealthBar.cs" />
@@ -83,6 +84,8 @@
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
     <None Include="Assets\Fantasy Skybox FREE\ReleaseNotes.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
+    <None Include="Assets\XEntity GameKit\Changelogs\Changelog v2.0.txt" />
+    <None Include="Assets\XEntity GameKit\ReadMe.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
@@ -1086,6 +1089,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="XEntity.InventoryItemSystem.csproj">
+      <Project>{320A2015-E470-F2BF-E392-7378918FEE7F}</Project>
+      <Name>XEntity.InventoryItemSystem</Name>
+    </ProjectReference>
     <ProjectReference Include="Campfire.csproj">
       <Project>{2F9A01A6-6CFE-6589-7520-A82334F00943}</Project>
       <Name>Campfire</Name>

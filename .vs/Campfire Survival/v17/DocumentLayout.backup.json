@@ -1,12 +1,104 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\zzfor\\CS4700\\Campfire Survival\\Campfire Survival\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{276508A0-CE24-A0CD-C4DE-DBCA4B58413C}|Assembly-CSharp.csproj|c:\\users\\zzfor\\cs4700\\campfire survival\\campfire survival\\assets\\scripts\\playerinteraction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{276508A0-CE24-A0CD-C4DE-DBCA4B58413C}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\playerinteraction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{320A2015-E470-F2BF-E392-7378918FEE7F}|XEntity.InventoryItemSystem.csproj|c:\\users\\zzfor\\cs4700\\campfire survival\\campfire survival\\assets\\xentity gamekit\\scripts\\inventory and item system\\instantharvest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{320A2015-E470-F2BF-E392-7378918FEE7F}|XEntity.InventoryItemSystem.csproj|solutionrelative:assets\\xentity gamekit\\scripts\\inventory and item system\\instantharvest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{320A2015-E470-F2BF-E392-7378918FEE7F}|XEntity.InventoryItemSystem.csproj|c:\\users\\zzfor\\cs4700\\campfire survival\\campfire survival\\assets\\xentity gamekit\\scripts\\inventory and item system\\itemcontainer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{320A2015-E470-F2BF-E392-7378918FEE7F}|XEntity.InventoryItemSystem.csproj|solutionrelative:assets\\xentity gamekit\\scripts\\inventory and item system\\itemcontainer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{320A2015-E470-F2BF-E392-7378918FEE7F}|XEntity.InventoryItemSystem.csproj|c:\\users\\zzfor\\cs4700\\campfire survival\\campfire survival\\assets\\xentity gamekit\\scripts\\inventory and item system\\interactor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{320A2015-E470-F2BF-E392-7378918FEE7F}|XEntity.InventoryItemSystem.csproj|solutionrelative:assets\\xentity gamekit\\scripts\\inventory and item system\\interactor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{320A2015-E470-F2BF-E392-7378918FEE7F}|XEntity.InventoryItemSystem.csproj|C:\\Users\\zzfor\\CS4700\\Campfire Survival\\Campfire Survival\\assets\\xentity gamekit\\scripts\\inventory and item system\\itemmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{320A2015-E470-F2BF-E392-7378918FEE7F}|XEntity.InventoryItemSystem.csproj|solutionrelative:assets\\xentity gamekit\\scripts\\inventory and item system\\itemmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "PlayerInteraction.cs",
+              "DocumentMoniker": "C:\\Users\\zzfor\\CS4700\\Campfire Survival\\Campfire Survival\\Assets\\Scripts\\PlayerInteraction.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\PlayerInteraction.cs",
+              "ToolTip": "C:\\Users\\zzfor\\CS4700\\Campfire Survival\\Campfire Survival\\Assets\\Scripts\\PlayerInteraction.cs",
+              "RelativeToolTip": "Assets\\Scripts\\PlayerInteraction.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-21T19:06:16.514Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "InstantHarvest.cs",
+              "DocumentMoniker": "C:\\Users\\zzfor\\CS4700\\Campfire Survival\\Campfire Survival\\Assets\\XEntity GameKit\\Scripts\\Inventory and Item System\\InstantHarvest.cs",
+              "RelativeDocumentMoniker": "Assets\\XEntity GameKit\\Scripts\\Inventory and Item System\\InstantHarvest.cs",
+              "ToolTip": "C:\\Users\\zzfor\\CS4700\\Campfire Survival\\Campfire Survival\\Assets\\XEntity GameKit\\Scripts\\Inventory and Item System\\InstantHarvest.cs",
+              "RelativeToolTip": "Assets\\XEntity GameKit\\Scripts\\Inventory and Item System\\InstantHarvest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-21T18:59:59.641Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ItemContainer.cs",
+              "DocumentMoniker": "C:\\Users\\zzfor\\CS4700\\Campfire Survival\\Campfire Survival\\Assets\\XEntity GameKit\\Scripts\\Inventory and Item System\\ItemContainer.cs",
+              "RelativeDocumentMoniker": "Assets\\XEntity GameKit\\Scripts\\Inventory and Item System\\ItemContainer.cs",
+              "ToolTip": "C:\\Users\\zzfor\\CS4700\\Campfire Survival\\Campfire Survival\\Assets\\XEntity GameKit\\Scripts\\Inventory and Item System\\ItemContainer.cs",
+              "RelativeToolTip": "Assets\\XEntity GameKit\\Scripts\\Inventory and Item System\\ItemContainer.cs",
+              "ViewState": "AgIAAAEBAAAAAAAAAAAiwBUBAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-21T18:42:39.945Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Interactor.cs",
+              "DocumentMoniker": "C:\\Users\\zzfor\\CS4700\\Campfire Survival\\Campfire Survival\\Assets\\XEntity GameKit\\Scripts\\Inventory and Item System\\Interactor.cs",
+              "RelativeDocumentMoniker": "Assets\\XEntity GameKit\\Scripts\\Inventory and Item System\\Interactor.cs",
+              "ToolTip": "C:\\Users\\zzfor\\CS4700\\Campfire Survival\\Campfire Survival\\Assets\\XEntity GameKit\\Scripts\\Inventory and Item System\\Interactor.cs",
+              "RelativeToolTip": "Assets\\XEntity GameKit\\Scripts\\Inventory and Item System\\Interactor.cs",
+              "ViewState": "AgIAAEcAAAAAAAAAAAAswAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-21T18:42:14.581Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ItemManager.cs",
+              "DocumentMoniker": "C:\\Users\\zzfor\\CS4700\\Campfire Survival\\Campfire Survival\\Assets\\XEntity GameKit\\Scripts\\Inventory and Item System\\ItemManager.cs",
+              "RelativeDocumentMoniker": "Assets\\XEntity GameKit\\Scripts\\Inventory and Item System\\ItemManager.cs",
+              "ToolTip": "C:\\Users\\zzfor\\CS4700\\Campfire Survival\\Campfire Survival\\Assets\\XEntity GameKit\\Scripts\\Inventory and Item System\\ItemManager.cs",
+              "RelativeToolTip": "Assets\\XEntity GameKit\\Scripts\\Inventory and Item System\\ItemManager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAxwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-21T18:41:53.504Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
