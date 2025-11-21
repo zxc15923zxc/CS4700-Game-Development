@@ -24,9 +24,6 @@ public class FuelItem : MonoBehaviour
     {
         Wood,
         Stick,
-        Grass,
-        Coal,
-        Paper
     }
     
     void Start()

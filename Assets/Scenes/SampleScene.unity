@@ -1571,7 +1571,7 @@ MonoBehaviour:
   speed: 12
   gravity: -9.81
   jumpHeight: 3
-  terminalVelocity: -50
+  terminalVelocity: -100
   groundCheck: {fileID: 1859478167}
   groundDistance: 0.4
   groundMask:
