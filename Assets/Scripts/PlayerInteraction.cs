@@ -34,6 +34,7 @@ public class PlayerInteraction : MonoBehaviour
     private FireController pointedFire;             // only set if the raycast hit a BoxCollider on the campfire
     private FireController nearbyFireInRange;       // search result restricted to fires with BoxCollider
     private InstantHarvest pointedHarvest;          // <-- NEW
+    private ItemCollector pointedItemCollector;     // <-- NEW: for items dropped from trees (sticks, logs, apples)
 
     // suppress automatic prompt updates while a temporary prompt is visible
     private float promptSuppressUntil = 0f;
@@ -71,7 +72,31 @@ public class PlayerInteraction : MonoBehaviour
                     string label = (pointedHarvest.harvestItem != null) ? pointedHarvest.harvestItem.name : "Item";
                     promptUI?.ShowTemporary($"+ {label}", d);
                 }
-                return; // don’t also consume fuel this frame
+                return; // donï¿½t also consume fuel this frame
+            }
+
+            // --- NEW: ItemCollector pickup (for sticks, logs, apples dropped from trees) ---
+            if (pointedItemCollector != null)
+            {
+                if (playerInteractor == null)
+                {
+                    Debug.LogWarning("PlayerInteraction: playerInteractor is not assigned. Drag your Interactor here.");
+                }
+                else
+                {
+                    // Try to pickup the item
+                    bool success = pointedItemCollector.TryPickup(playerInteractor);
+                    if (success)
+                    {
+                        // Feedback
+                        float d = 1.0f;
+                        promptSuppressUntil = Time.time + d;
+                        promptUI?.HideImmediate();
+                        string label = (pointedItemCollector.Item != null) ? pointedItemCollector.Item.itemName : "Item";
+                        promptUI?.ShowTemporary($"+ {label}", d);
+                    }
+                }
+                return; // don't also consume fuel this frame
             }
 
             // Existing: fuel collect
@@ -122,6 +147,7 @@ public class PlayerInteraction : MonoBehaviour
         pointedFire = null;
         nearbyFireInRange = null;
         pointedHarvest = null; // <-- NEW
+        pointedItemCollector = null; // <-- NEW
 
         if (playerCamera == null) return;
 
@@ -138,6 +164,11 @@ public class PlayerInteraction : MonoBehaviour
             pointedHarvest = hit.collider.GetComponent<InstantHarvest>()
                           ?? hit.collider.GetComponentInParent<InstantHarvest>()
                           ?? hit.collider.GetComponentInChildren<InstantHarvest>();
+
+            // --- NEW: ItemCollector (for items dropped from trees like sticks, logs, apples) ---
+            pointedItemCollector = hit.collider.GetComponent<ItemCollector>()
+                                ?? hit.collider.GetComponentInParent<ItemCollector>()
+                                ?? hit.collider.GetComponentInChildren<ItemCollector>();
 
             // fire: only treat as "pointed" if the ray actually hit a BoxCollider that belongs to the FireController
             FireController fc = hit.collider.GetComponent<FireController>() ?? hit.collider.GetComponentInParent<FireController>() ?? hit.collider.GetComponentInChildren<FireController>();
@@ -247,6 +278,11 @@ public class PlayerInteraction : MonoBehaviour
         if (pointedHarvest != null)
         {
             string label = (pointedHarvest.harvestItem != null) ? pointedHarvest.harvestItem.name : "item";
+            promptUI.Show($"Press {interactKey} to pick up {label}");
+        }
+        else if (pointedItemCollector != null)
+        {
+            string label = (pointedItemCollector.Item != null) ? pointedItemCollector.Item.itemName : "item";
             promptUI.Show($"Press {interactKey} to pick up {label}");
         }
         else if (pointedFuel != null)

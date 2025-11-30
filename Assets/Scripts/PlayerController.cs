@@ -179,8 +179,18 @@ public class PlayerController : MonoBehaviour
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
+        // Get forward direction flattened to horizontal plane (remove vertical component)
+        Vector3 forward = transform.forward;
+        forward.y = 0f;
+        forward.Normalize();
+        
+        // Get right direction flattened to horizontal plane
+        Vector3 right = transform.right;
+        right.y = 0f;
+        right.Normalize();
+
         // Horizontal movement vector (local space), NOT yet multiplied by Time.deltaTime
-        Vector3 horizDir = (transform.right * x + transform.forward * z);
+        Vector3 horizDir = (right * x + forward * z);
         Vector3 horizVel = horizDir.normalized * speed;      // actual horizontal velocity (m/s)
         float planarSpeed = horizVel.magnitude;               // use this for footsteps
 
@@ -304,7 +314,7 @@ public class PlayerController : MonoBehaviour
             Text tempText = temperatureIndicator.GetComponent<Text>();
             if (tempText != null)
             {
-                tempText.text = "Body Temp: " + Mathf.Round(bodyTemperature) + "°C";
+                tempText.text = "Body Temp: " + Mathf.Round(bodyTemperature) + "Â°C";
             }
         }
     }

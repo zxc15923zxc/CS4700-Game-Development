@@ -59,7 +59,29 @@ namespace XEntity.InventoryItemSystem
 
         private void ConsumeItem(ItemSlot slot) 
         {
-            Debug.Log("You have consumed " + slot.slotItem.itemName);
+            if (slot.IsEmpty) return;
+
+            string itemName = slot.slotItem.itemName;
+            Debug.Log("You have consumed " + itemName);
+
+            // Handle specific consumable items
+            // Apple restores 5 health
+            if (itemName.ToLower().Contains("apple"))
+            {
+                PlayerController player = FindObjectOfType<PlayerController>();
+
+                if (player != null)
+                {
+                    // Restore 5 health (clamped to max health)
+                    float healthToRestore = 5f;
+                    float currentHealth = player.currentHealth;
+                    float maxHealth = player.maxHealth;
+                    player.currentHealth = Mathf.Min(currentHealth + healthToRestore, maxHealth);
+                    Debug.Log($"Restored {healthToRestore} health. Current health: {player.currentHealth}/{maxHealth}");
+                }
+            }
+
+            // Remove the consumed item
             slot.Remove(1);
         }
 

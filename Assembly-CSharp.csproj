@@ -61,19 +61,35 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\MainMenuUI.cs" />
+    <Compile Include="Assets\XEntity GameKit\Scripts\Inventory and Item System\ItemSlot.cs" />
     <Compile Include="Assets\Scripts\GameOverUI.cs" />
     <Compile Include="Assets\Scripts\FireController.cs" />
     <Compile Include="Assets\FantasyEnvironments\Environments\Town\Scripts\Door.cs" />
+    <Compile Include="Assets\XEntity GameKit\Scripts\Inventory and Item System\ExternalItemContainer.cs" />
+    <Compile Include="Assets\XEntity GameKit\Scripts\Inventory and Item System\ItemManager.cs" />
+    <Compile Include="Assets\XEntity GameKit\Scripts\Inventory and Item System\Utils.cs" />
+    <Compile Include="Assets\XEntity GameKit\Scripts\Inventory and Item System\SlotOptions.cs" />
+    <Compile Include="Assets\XEntity GameKit\Scripts\Inventory and Item System\IInteractable.cs" />
     <Compile Include="Assets\Scripts\EnemyController.cs" />
+    <Compile Include="Assets\XEntity GameKit\Scripts\Inventory and Item System\Item.cs" />
     <Compile Include="Assets\Scripts\FuelUI.cs" />
     <Compile Include="Assets\XEntity GameKit\Demo\Scripts\PlayerMovement.cs" />
+    <Compile Include="Assets\XEntity GameKit\Scripts\Inventory and Item System\Interactor.cs" />
+    <Compile Include="Assets\XEntity GameKit\Scripts\Inventory and Item System\ItemType.cs" />
     <Compile Include="Assets\Scripts\PlayerInteraction.cs" />
     <Compile Include="Assets\Scripts\EnvironmentManager.cs" />
     <Compile Include="Assets\Scripts\HealthBar.cs" />
+    <Compile Include="Assets\XEntity GameKit\Scripts\Inventory and Item System\InteractionSettings.cs" />
+    <Compile Include="Assets\XEntity GameKit\Scripts\Inventory and Item System\ItemSlotUIEvents.cs" />
+    <Compile Include="Assets\XEntity GameKit\Scripts\Inventory and Item System\ContainerPanelDragger.cs" />
     <Compile Include="Assets\Scripts\InteractionPromptUI.cs" />
     <Compile Include="Assets\Scripts\FuelItem.cs" />
+    <Compile Include="Assets\XEntity GameKit\Scripts\Inventory and Item System\ItemCollector.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
+    <Compile Include="Assets\XEntity GameKit\Scripts\Inventory and Item System\Harvestable.cs" />
+    <Compile Include="Assets\XEntity GameKit\Scripts\Inventory and Item System\ItemContainer.cs" />
     <Compile Include="Assets\Scripts\MouseMovement.cs" />
+    <Compile Include="Assets\XEntity GameKit\Scripts\Inventory and Item System\InstantHarvest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
@@ -1089,10 +1105,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="XEntity.InventoryItemSystem.csproj">
-      <Project>{320A2015-E470-F2BF-E392-7378918FEE7F}</Project>
-      <Name>XEntity.InventoryItemSystem</Name>
-    </ProjectReference>
     <ProjectReference Include="Campfire.csproj">
       <Project>{2F9A01A6-6CFE-6589-7520-A82334F00943}</Project>
       <Name>Campfire</Name>

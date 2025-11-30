@@ -11,6 +11,9 @@ namespace XEntity.InventoryItemSystem
         //Continuously rotates the item collector along this axis.
         private readonly Vector3 rotAxis = new Vector3(0.1f, 1, 0.1f);
 
+        //Public property to access the item (for manual pickup via E key)
+        public Item Item { get { return item; } }
+
         private void Update() 
         {
             //Rotate the collector object.
@@ -21,6 +24,16 @@ namespace XEntity.InventoryItemSystem
         public void Create(Item item)
         {
             this.item = item;
+        }
+
+        //Manual pickup method for E key interaction
+        public bool TryPickup(Interactor interactor)
+        {
+            if (item != null && interactor != null)
+            {
+                return interactor.AddToInventory(item, gameObject);
+            }
+            return false;
         }
 
         //On trigger with the interactor, attempt will be made to add this collector's item to the interactor's inventory.

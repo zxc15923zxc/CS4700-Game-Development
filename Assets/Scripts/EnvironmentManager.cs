@@ -7,11 +7,11 @@ public class EnvironmentManager : MonoBehaviour
     [Header("Environment Setup")]
     public bool autoSpawnEnvironment = true;
     public int numberOfTrees = 10;
-    public int numberOfGrassPatches = 20;
     public int numberOfFuelItems = 15;
     public int numberOfRuins = 15;
     public int numberOfMushrooms = 40;
-    
+    public int numberOfStones = 30;
+
     [Header("Spawn Areas")]
     public Transform spawnArea;
     public float spawnRadius = 50f;
@@ -22,7 +22,8 @@ public class EnvironmentManager : MonoBehaviour
     public GameObject stickPrefab;
     public GameObject ruinsPrefab;
     public GameObject mushroomPrefab;
-    
+    public GameObject stonePrefab;
+
     [Header("Spawn Settings")]
     public float minSpawnDistance = 5f;
     public LayerMask groundLayer = 1;
@@ -50,7 +51,10 @@ public class EnvironmentManager : MonoBehaviour
 
         // Spawns mushroom decor
         SpawnObjects(mushroomPrefab, numberOfMushrooms, center, spawnRadius, "Mushrooms");
-        
+
+        // Spawns stone decor
+        SpawnObjects(stonePrefab, numberOfStones, center, spawnRadius, "Stones");
+
         Debug.Log("Environment spawned successfully!");
     }
     
