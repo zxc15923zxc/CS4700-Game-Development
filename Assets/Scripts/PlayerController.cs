@@ -61,10 +61,9 @@ public class PlayerController : MonoBehaviour
     [Range(0f, 0.2f)] public float jumpPitchJitter = 0.05f;
 
     [Header("Combat")]
-    public float attackRate = 1.0f;            // Attacks per second
-    public float attackAnimationDelay = 0.1f;  // Delay before animation starts (helps sync)
-    public float attackCooldown = 0.4f;        // Delay before you can move/attack again
-    public AudioClip attackSound;
+    public float attackCooldown = 2.0f;   // How long between attacks
+    private float nextAttackTime = 1f;    // Internal timer
+
 
     private Animator animator;
 
@@ -141,32 +140,37 @@ public class PlayerController : MonoBehaviour
 
     void HandleCombat()
     {
-        // Basic left-click
-        if (Input.GetMouseButtonDown(0))
-        {
-            Debug.Log("Left click detect");
-            if (animator != null) animator.SetTrigger("PunchRight");
+	// Left click + cooldown check
+	if (Input.GetMouseButtonDown(0) && Time.time >= nextAttackTime)
+	{
+	    nextAttackTime = Time.time + attackCooldown;
 
-            HitEnemy();
-        }
+	    Debug.Log("Attack triggered");
+
+	    if (animator != null)
+		animator.SetTrigger("PunchRight");
+
+	    HitEnemy();
+	}
     }
+
 
     void HitEnemy()
     {
-        int attackRange = 1;
+	float attackRange = 1f;
 
-        RaycastHit hit;
-
-        if (Physics.Raycast(transform.position + Vector3.up, transform.forward, out hit, attackRange))
-        {
-            EnemyController enemy = hit.collider.GetComponent<EnemyController>();
-            if (enemy != null)
-            {
-                enemy.TakeDamage();
-                Debug.Log("Hit enemy!");
-            }
-        }
+	RaycastHit hit;
+	if (Physics.Raycast(transform.position + Vector3.up, transform.forward, out hit, attackRange))
+	{
+	    EnemyController enemy = hit.collider.GetComponent<EnemyController>();
+	    if (enemy != null)
+	    {
+		enemy.TakeDamage();
+		Debug.Log("Hit enemy!");
+	    }
+	}
     }
+
     void HandleMovement()
     {
         // Ground check

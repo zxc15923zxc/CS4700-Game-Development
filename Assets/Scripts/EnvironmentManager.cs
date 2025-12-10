@@ -24,6 +24,10 @@ public class EnvironmentManager : MonoBehaviour
     public GameObject mushroomPrefab;
     public GameObject stonePrefab;
 
+    [Header("Enemies")]
+    public GameObject wolfPrefab;
+    public int numberOfWolves = 5;
+
     [Header("Spawn Settings")]
     public float minSpawnDistance = 5f;
     public LayerMask groundLayer = 1;
@@ -55,9 +59,12 @@ public class EnvironmentManager : MonoBehaviour
         // Spawns stone decor
         SpawnObjects(stonePrefab, numberOfStones, center, spawnRadius, "Stones");
 
+        // Wolf
+        SpawnEnemies(center, spawnRadius);
+
         Debug.Log("Environment spawned successfully!");
     }
-    
+
     void SpawnObjects(GameObject prefab, int count, Vector3 center, float radius, string objectName)
     {
         if (prefab == null)
@@ -65,22 +72,46 @@ public class EnvironmentManager : MonoBehaviour
             Debug.LogWarning($"No {objectName} prefab assigned!");
             return;
         }
-        
+
         for (int i = 0; i < count; i++)
         {
             Vector3 spawnPosition = GetRandomSpawnPosition(center, radius);
-            
+
             if (spawnPosition != Vector3.zero)
             {
                 GameObject obj = Instantiate(prefab, spawnPosition, Quaternion.identity);
                 obj.name = $"{objectName}_{i}";
-                
+
                 // Random rotation for variety
                 obj.transform.rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
             }
         }
     }
-    
+
+    void SpawnEnemies(Vector3 center, float radius)
+    {
+	if (wolfPrefab == null)
+	{
+	    Debug.LogWarning("No wolf prefab assigned!");
+	    return;
+	}
+
+	for (int i = 0; i < numberOfWolves; i++)
+	{
+	    Vector3 spawnPosition = GetRandomSpawnPosition(center, radius);
+
+	    if (spawnPosition != Vector3.zero)
+	    {
+		GameObject wolf = Instantiate(wolfPrefab, spawnPosition, Quaternion.identity);
+		wolf.name = $"Wolf_{i}";
+
+		// Optional: random rotation
+		wolf.transform.rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
+	    }
+	}
+    }
+
+
     void SpawnFuelItems(Vector3 center, float radius)
     {
         for (int i = 0; i < numberOfFuelItems; i++)
