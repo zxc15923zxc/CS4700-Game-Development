@@ -105,7 +105,7 @@ public class EnvironmentManager : MonoBehaviour
 		GameObject wolf = Instantiate(wolfPrefab, spawnPosition, Quaternion.identity);
 		wolf.name = $"Wolf_{i}";
 
-		// Optional: random rotation
+
 		wolf.transform.rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
 	    }
 	}
