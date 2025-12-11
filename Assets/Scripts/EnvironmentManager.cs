@@ -7,6 +7,7 @@ public class EnvironmentManager : MonoBehaviour
     [Header("Environment Setup")]
     public bool autoSpawnEnvironment = true;
     public int numberOfTrees = 10;
+    public int numberOfChoppingTrees = 10;
     public int numberOfFuelItems = 15;
     public int numberOfRuins = 15;
     public int numberOfMushrooms = 40;
@@ -18,6 +19,7 @@ public class EnvironmentManager : MonoBehaviour
     
     [Header("Prefabs")]
     public GameObject treePrefab;
+    public GameObject choppingtreePrefab;
     public GameObject woodPrefab;
     public GameObject stickPrefab;
     public GameObject ruinsPrefab;
@@ -46,7 +48,10 @@ public class EnvironmentManager : MonoBehaviour
         
         // Spawn trees
         SpawnObjects(treePrefab, numberOfTrees, center, spawnRadius, "Tree");
-        
+
+        // Spawn chopping trees
+        SpawnObjects(choppingtreePrefab, numberOfChoppingTrees, center, spawnRadius, "Chopping Tree");
+
         // Spawn fuel items
         SpawnFuelItems(center, spawnRadius);
 

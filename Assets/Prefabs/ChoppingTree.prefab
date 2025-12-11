@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8596504161055881373}
   - component: {fileID: -3080901675040323311}
   m_Layer: 0
-  m_Name: Tree 1
+  m_Name: ChoppingTree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

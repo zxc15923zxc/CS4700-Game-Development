@@ -1841,7 +1841,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1140453931}
   - component: {fileID: 1140453930}
-  - component: {fileID: 1140453937}
   - component: {fileID: 1140453932}
   - component: {fileID: 1140453933}
   - component: {fileID: 1140453934}
@@ -2039,33 +2038,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!54 &1140453937
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1140453927}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!114 &1140453938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3511,17 +3483,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   autoSpawnEnvironment: 1
   numberOfTrees: 500
-  numberOfGrassPatches: 200
   numberOfFuelItems: 100
   numberOfRuins: 10
   numberOfMushrooms: 20
+  numberOfStones: 30
   spawnArea: {fileID: 1140453931}
   spawnRadius: 200
-  treePrefab: {fileID: 2222111361404534124, guid: 3e803907c61281a4281bb6b769d91144, type: 3}
+  treePrefab: {fileID: 3980100085219262365, guid: 2abcd1f7e6854e140a1e9724bda1dea1, type: 3}
   woodPrefab: {fileID: 173048, guid: 8fec06b371faa8142bd9d28151e33b1c, type: 3}
   stickPrefab: {fileID: 1493958779012120596, guid: 952a342e67d502a43a2071e0a9d04ede, type: 3}
   ruinsPrefab: {fileID: 3669657689831181937, guid: b7e72b2b99e757143846e12dc66116f2, type: 3}
   mushroomPrefab: {fileID: 8657910923137107997, guid: ec5d91232451fb14980c7c04fe64c697, type: 3}
+  stonePrefab: {fileID: 2723194821865680392, guid: 6a51c128ec24caa4aa510486e4319313, type: 3}
   minSpawnDistance: 5
   groundLayer:
     serializedVersion: 2

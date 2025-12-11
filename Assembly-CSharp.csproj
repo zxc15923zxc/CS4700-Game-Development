@@ -10,7 +10,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{A95DF2E1-6C32-EAE5-69BA-9CF1C85AE2A9}</ProjectGuid>
+    <ProjectGuid>{276508A0-CE24-A0CD-C4DE-DBCA4B58413C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -1106,11 +1106,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Campfire.csproj">
-      <Project>{3F81A73F-423A-4A9B-F7AE-B21298112F28}</Project>
+      <Project>{2F9A01A6-6CFE-6589-7520-A82334F00943}</Project>
       <Name>Campfire</Name>
     </ProjectReference>
     <ProjectReference Include="Abiogenesis3d.Shared.csproj">
-      <Project>{134230F8-B4A6-97B3-4D20-C39F920B8903}</Project>
+      <Project>{597C5899-5202-5DFF-B8CD-EA3E13C8FEBF}</Project>
       <Name>Abiogenesis3d.Shared</Name>
     </ProjectReference>
   </ItemGroup>

@@ -34,8 +34,7 @@
               "RelativeToolTip": "Assets\\Scripts\\PlayerInteraction.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-30T20:54:50.375Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-30T20:54:50.375Z"
             },
             {
               "$type": "Document",
@@ -45,7 +44,7 @@
               "RelativeDocumentMoniker": "Assets\\Scripts\\PlayerController.cs",
               "ToolTip": "C:\\Users\\zzfor\\CS4700\\Campfire Survival\\Campfire Survival\\Assets\\Scripts\\PlayerController.cs",
               "RelativeToolTip": "Assets\\Scripts\\PlayerController.cs",
-              "ViewState": "AgIAALgBAAAAAAAAAAAuwAUAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAACoBAAAAAAAAAADwvzwBAABSAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-30T20:46:19.657Z",
               "EditorCaption": ""
@@ -60,8 +59,7 @@
               "RelativeToolTip": "Assets\\XEntity GameKit\\Scripts\\Inventory and Item System\\ItemManager.cs",
               "ViewState": "AgIAABYAAAAAAAAAAAAuwEgAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-30T20:42:11.83Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-30T20:42:11.83Z"
             }
           ]
         }
